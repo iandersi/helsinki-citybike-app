@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  database:
+    image: "mariadb:10.11"
+    environment:
+      MARIADB_USER: "hcba-user"
+      MARIADB_PASSWORD: "Hcba0-User-Secret-Password4"
+      MARIADB_ROOT_PASSWORD: "Hcba1-Root-Super-Secret"
+      MARIADB_DATABASE: "hcba"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
