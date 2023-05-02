@@ -1,8 +1,8 @@
 -- hcba.journeys definition
 
 CREATE TABLE `journeys` (
-  `departure` datetime DEFAULT NULL,
-  `return` datetime DEFAULT NULL,
+  `departure_date_time` datetime DEFAULT NULL,
+  `return_date_time` datetime DEFAULT NULL,
   `departure_station_id` bigint(20) DEFAULT NULL,
   `departure_station_name` varchar(100) DEFAULT NULL,
   `return_station_id` bigint(20) DEFAULT NULL,
