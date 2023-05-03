@@ -6,6 +6,7 @@ export default function NavigationTabs(){
             <div className="navigation--tab">May</div>
             <div className="navigation--tab">June</div>
             <div className="navigation--tab">July</div>
+            <div className="navigation--tab">Stations</div>
             <div className="navigation--tab">Map</div>
         </div>
     );
