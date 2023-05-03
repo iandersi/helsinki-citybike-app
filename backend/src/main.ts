@@ -28,7 +28,11 @@ async function asyncFunction() {
   }
 }
 
-asyncFunction();
+
+app.get('/ping', (req, res)=> {
+  console.log('pong');
+  res.send('pong');
+})
 
 app.listen(8080, ()=> {
   console.log('listening to port 8080');
