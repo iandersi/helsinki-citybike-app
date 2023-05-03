@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import './css/App.css';
 import axios from "axios";
+import NavigationTabs from "./components/NavigationTabs";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
 
     return (
         <div className="App">
-            <div>Hello World</div>
+            <NavigationTabs/>
         </div>
     )
 }

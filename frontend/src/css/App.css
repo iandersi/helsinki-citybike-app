@@ -1,0 +1,11 @@
+.navigation--container {
+    display: flex;
+    justify-content: center;
+}
+
+.navigation--tab {
+    border-top: black 1px solid;
+    border-bottom: black 1px solid;
+    font-size: 2rem;
+    padding: 1rem;
+}
