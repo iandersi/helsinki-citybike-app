@@ -9,7 +9,7 @@ function App() {
     }, [])
 
     function testConn() {
-        axios.get('http://localhost:3000/ping')
+        axios.get('http://localhost:3000/may')
             .then(res => {
                 console.log(res)
             }).catch(err => {

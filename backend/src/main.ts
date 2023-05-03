@@ -18,7 +18,7 @@ async function asyncFunction() {
   let conn;
   try {
     conn = await pool.getConnection();
-    const journey = await conn.query("SELECT * FROM journeys WHERE return_station_id = 100");
+    const journey = await conn.query('SELECT * FROM journeys WHERE departure_date_time LIKE "2021-05%" ORDER BY departure_date_time asc LIMIT 20');
     console.log(journey);
     return journey;
   } catch (err) {
@@ -28,10 +28,9 @@ async function asyncFunction() {
   }
 }
 
-
-app.get('/ping', (req, res)=> {
-  console.log('pong');
-  res.send('pong');
+app.get('/may', async (req, res)=> {
+  const departuresInMay = await asyncFunction();
+  res.send(departuresInMay);
 })
 
 app.listen(8080, ()=> {
