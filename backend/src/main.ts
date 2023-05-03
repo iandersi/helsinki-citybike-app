@@ -14,7 +14,7 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function asyncFunction() {
+async function databaseQuery() {
   let conn;
   try {
     conn = await pool.getConnection();
@@ -29,7 +29,7 @@ async function asyncFunction() {
 }
 
 app.get('/may', async (req, res)=> {
-  const departuresInMay = await asyncFunction();
+  const departuresInMay = await databaseQuery();
   res.send(departuresInMay);
 })
 
