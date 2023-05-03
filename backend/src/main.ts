@@ -1,6 +1,7 @@
 import express from "express";
 const mariadb = require('mariadb');
 import * as dotenv from 'dotenv';
+import {Journey} from "./Journey";
 dotenv.config();
 
 const app = express();
@@ -18,9 +19,9 @@ async function databaseQuery() {
   let conn;
   try {
     conn = await pool.getConnection();
-    const journey = await conn.query('SELECT * FROM journeys WHERE departure_date_time LIKE "2021-05%" ORDER BY departure_date_time asc LIMIT 20');
-    console.log(journey);
-    return journey;
+    const journeyArray = await conn.query('SELECT * FROM journeys WHERE departure_date_time LIKE "2021-05%" ORDER BY departure_date_time asc LIMIT 20') as Journey[];
+    console.log(journeyArray);
+    return journeyArray;
   } catch (err) {
     console.log(err);
   } finally {
@@ -28,7 +29,7 @@ async function databaseQuery() {
   }
 }
 
-app.get('/may', async (req, res)=> {
+app.get('/journeys', async (req, res)=> {
   const departuresInMay = await databaseQuery();
   res.send(departuresInMay);
 })
