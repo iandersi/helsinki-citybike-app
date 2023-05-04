@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import useDatabase from "../hooks/useDatabase";
 import {Button} from "react-bootstrap";
+import LoadingButton from "./LoadingButton";
 
 export default function JourneysPage() {
-    const {journeys} = useDatabase();
+
+    const {journeys, getJourneys, showSpinner} = useDatabase();
+
 
     return (
         <div className="journey-tab--container">
@@ -17,7 +20,8 @@ export default function JourneysPage() {
                 <div>Covered Distance (m)</div>
                 <div>Duration (sec)</div>
             </div>
-            {journeys.map(journey => (
+            {showSpinner && <LoadingButton/>}
+            {!showSpinner && journeys.map(journey => (
                 <div className="journey-tab--journey-list">
                     <div className="journey-tab--journey-data">{journey.departure_date_time}</div>
                     <div className="journey-tab--journey-data">{journey.return_date_time}</div>
