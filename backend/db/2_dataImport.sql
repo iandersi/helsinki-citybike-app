@@ -1,4 +1,4 @@
-LOAD DATA INFILE '/docker-entrypoint-initdb.d/2021-05.csv'
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/2021-05-prepared.csv'
 INTO TABLE journeys
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'

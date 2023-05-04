@@ -5,7 +5,7 @@ import LoadingButton from "./LoadingButton";
 
 export default function JourneysPage() {
 
-    const {journeys, getJourneys, showSpinner} = useDatabase();
+    const {journeys, getJourneys, showSpinner} = useDatabase(1);
 
 
     return (

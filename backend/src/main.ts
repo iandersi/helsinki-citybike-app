@@ -15,11 +15,11 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function databaseQuery() {
+async function databaseQuery(pageNumber: number) {
   let conn;
   try {
     conn = await pool.getConnection();
-    const journeyArray = await conn.query('SELECT * FROM journeys WHERE departure_date_time LIKE "2021-05%" ORDER BY departure_date_time asc LIMIT 20') as Journey[];
+    const journeyArray = await conn.query("SELECT * FROM journeys ORDER BY departure_date_time ASC LIMIT 3 OFFSET ?", [pageNumber]) as Journey[];
     console.log(journeyArray);
     return journeyArray;
   } catch (err) {
@@ -30,7 +30,11 @@ async function databaseQuery() {
 }
 
 app.get('/journeys', async (req, res)=> {
-  const departuresInMay = await databaseQuery();
+  if (!req.query.page) return;
+  const page = req.query.page.toString();
+  if (!page) return;
+  const pageNumber = parseInt(page);
+  const departuresInMay = await databaseQuery(pageNumber);
   res.send(departuresInMay);
 })
 
