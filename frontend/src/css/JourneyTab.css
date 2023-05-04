@@ -1,0 +1,26 @@
+.journey-tab--container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.journey-tab--header {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.journey-tab--header > div {
+    width: 100%;
+    text-align: center;
+}
+
+
+.journey-tab--journey-list {
+    display: flex;
+}
+
+.journey-tab--journey-data {
+    width: 100%;
+    text-align: center;
+}
