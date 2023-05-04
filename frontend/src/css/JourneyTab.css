@@ -24,3 +24,12 @@
     width: 100%;
     text-align: center;
 }
+
+.journey-tab--buttons {
+    text-align: center;
+}
+
+.journey-tab--buttons button {
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}

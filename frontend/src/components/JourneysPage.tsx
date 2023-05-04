@@ -1,5 +1,6 @@
 import React from "react";
 import useDatabase from "../hooks/useDatabase";
+import {Button} from "react-bootstrap";
 
 export default function JourneysPage() {
     const {journeys} = useDatabase();
@@ -28,6 +29,10 @@ export default function JourneysPage() {
                     <div className="journey-tab--journey-data">{journey.duration_sec}</div>
                 </div>
             ))}
+            <div className="journey-tab--buttons">
+                <Button variant="outline-dark">Prev</Button>
+                <Button variant="outline-dark">Next</Button>
+            </div>
         </div>
     );
 }
