@@ -15,11 +15,11 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function databaseQuery(pageNumber: number) {
+async function databaseQuery(idNumberForQuery: number) {
   let conn;
   try {
     conn = await pool.getConnection();
-    const journeyArray = await conn.query("SELECT * FROM journeys ORDER BY departure_date_time ASC LIMIT 3 OFFSET ?", [pageNumber]) as Journey[];
+    const journeyArray = await conn.query("SELECT * FROM journeys WHERE id BETWEEN 0 AND ? ORDER BY id ASC", [idNumberForQuery]) as Journey[];
     console.log(journeyArray);
     return journeyArray;
   } catch (err) {
@@ -30,12 +30,12 @@ async function databaseQuery(pageNumber: number) {
 }
 
 app.get('/journeys', async (req, res)=> {
-  if (!req.query.page) return;
-  const page = req.query.page.toString();
-  if (!page) return;
-  const pageNumber = parseInt(page);
-  const departuresInMay = await databaseQuery(pageNumber);
-  res.send(departuresInMay);
+  if (!req.query.idNumber) return;
+  const idNumberForQueryString = req.query.idNumber.toString();
+  if (!idNumberForQueryString) return;
+  const idNumberForQuery = parseInt(idNumberForQueryString);
+  const journeys = await databaseQuery(idNumberForQuery);
+  res.send(journeys);
 })
 
 app.listen(8080, ()=> {
