@@ -2,23 +2,26 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Journey} from "../models/Journey";
 
-export default function useDatabase(page: number) {
+export default function useDatabase(currentNumber: number, idNumberMin: number, idNumberMax: number) {
 
     useEffect(() => {
-        getJourneys(page)
+        getJourneys(currentNumber, idNumberMin, idNumberMax)
     }, []);
 
-    function getJourneys(page: number) {
+    function getJourneys(currentNumber: number, idNumberMin: number, idNumberMax: number) {
         if (showSpinner) return;
         setShowSpinner(true);
         axios.get<Journey[]>(`http://localhost:3000/journeys`, {
             params: {
-                page: page
+                currentNumber: currentNumber,
+                idNumberMin: idNumberMin,
+                idNumberMax: idNumberMax
             }
         })
             .then(response => {
                 console.log(response.data);
                 setJourneys(response.data);
+
             }).catch(err => {
                 console.log(err);
         }).finally(()=>{

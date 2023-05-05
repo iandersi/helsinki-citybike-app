@@ -2,10 +2,26 @@ import React, {useState} from "react";
 import useDatabase from "../hooks/useDatabase";
 import {Button} from "react-bootstrap";
 import LoadingButton from "./LoadingButton";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
 
-    const {journeys, getJourneys, showSpinner} = useDatabase(1);
+    const [idNumberMin, setIdNumberMin] = useState<number>(1);
+    const [currentIdNumber, setCurrentIdNumber] = useState<number>(20);
+    const [idNumberMax, setIdNumberMax] = useState<number>(20);
+    const {journeys, getJourneys, showSpinner} = useDatabase(currentIdNumber, idNumberMin, idNumberMax);
+    console.log(currentIdNumber);
+
+    function parameterForUseDatabase(prev?: boolean, next?: boolean){
+        if (prev) {
+            console.log('click prev');
+        }
+        if (next) {
+            console.log('click next');
+        }
+    }
+
+
 
 
     return (
@@ -22,7 +38,7 @@ export default function JourneysPage() {
             </div>
             {showSpinner && <LoadingButton/>}
             {!showSpinner && journeys.map(journey => (
-                <div className="journey-tab--journey-list">
+                <div key={uuidv4()} className="journey-tab--journey-list">
                     <div className="journey-tab--journey-data">{journey.departure_date_time}</div>
                     <div className="journey-tab--journey-data">{journey.return_date_time}</div>
                     <div className="journey-tab--journey-data">{journey.departure_station_id}</div>
@@ -34,8 +50,8 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark">Prev</Button>
-                <Button variant="outline-dark">Next</Button>
+                <Button variant="outline-dark" onClick={()=> console.log("prev")}>Prev</Button>
+                <Button variant="outline-dark" onClick={()=> parameterForUseDatabase(false, true)}>Next</Button>
             </div>
         </div>
     );
