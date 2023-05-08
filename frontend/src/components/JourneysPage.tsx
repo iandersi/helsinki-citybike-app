@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import useDatabase from "../hooks/useDatabase";
 import {Button} from "react-bootstrap";
 import LoadingButton from "./LoadingButton";
@@ -6,22 +6,23 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
 
-    const [idNumberMin, setIdNumberMin] = useState<number>(1);
-    const [currentIdNumber, setCurrentIdNumber] = useState<number>(20);
-    const [idNumberMax, setIdNumberMax] = useState<number>(20);
-    const {journeys, getJourneys, showSpinner} = useDatabase(currentIdNumber, idNumberMin, idNumberMax);
-    console.log(currentIdNumber);
+    const [minAndMaxId, setMinAndMaxId] = useState({
+        min: 1,
+        max: 20
+    });
+    const {journeys, getJourneys, showSpinner} = useDatabase(minAndMaxId.min, minAndMaxId.max);
 
-    function parameterForUseDatabase(prev?: boolean, next?: boolean){
-        if (prev) {
-            console.log('click prev');
-        }
-        if (next) {
-            console.log('click next');
-        }
+    useEffect(()=> {
+        getJourneys(minAndMaxId.min, minAndMaxId.max)
+    }, [minAndMaxId]);
+
+    function previousPage(){
+        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min - 20, max: minAndMaxId.max - 20});
     }
 
-
+    function nextPage(){
+        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min + 20, max: minAndMaxId.max + 20});
+    }
 
 
     return (
@@ -50,8 +51,8 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark" onClick={()=> console.log("prev")}>Prev</Button>
-                <Button variant="outline-dark" onClick={()=> parameterForUseDatabase(false, true)}>Next</Button>
+                <Button variant="outline-dark" onClick={()=> previousPage()}>Prev</Button>
+                <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
             </div>
         </div>
     );
