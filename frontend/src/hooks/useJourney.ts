@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Journey} from "../models/Journey";
 
-export default function useDatabase(idNumberMin: number, idNumberMax: number) {
+export default function useJourney(idNumberMin: number, idNumberMax: number) {
 
     function getJourneys(idNumberMin: number, idNumberMax: number) {
         if (showSpinner) return;

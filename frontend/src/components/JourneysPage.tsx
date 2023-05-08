@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import useDatabase from "../hooks/useDatabase";
+import useJourney from "../hooks/useJourney";
 import {Button} from "react-bootstrap";
 import LoadingButton from "./LoadingButton";
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +10,7 @@ export default function JourneysPage() {
         min: 1,
         max: 20
     });
-    const {journeys, getJourneys, showSpinner} = useDatabase(minAndMaxId.min, minAndMaxId.max);
+    const {journeys, getJourneys, showSpinner} = useJourney(minAndMaxId.min, minAndMaxId.max);
 
     useEffect(()=> {
         getJourneys(minAndMaxId.min, minAndMaxId.max)
