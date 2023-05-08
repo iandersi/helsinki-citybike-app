@@ -10,9 +10,15 @@ export default function JourneysPage() {
         min: 1,
         max: 20
     });
+    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
     const {journeys, getJourneys, showSpinner} = useJourney(minAndMaxId.min, minAndMaxId.max);
 
     useEffect(()=> {
+        if (minAndMaxId.min > 1 && minAndMaxId.max > 19) {
+            setIsButtonDisabled(false);
+        } else {
+            setIsButtonDisabled(true);
+        }
         getJourneys(minAndMaxId.min, minAndMaxId.max)
     }, [minAndMaxId]);
 
@@ -51,7 +57,7 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark" onClick={()=> previousPage()}>Prev</Button>
+                <Button variant="outline-dark" disabled={isButtonDisabled} onClick={()=> previousPage()}>Prev</Button>
                 <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
             </div>
         </div>
