@@ -6,7 +6,7 @@ type NavigationTabsProps = {
 
 export default function NavigationTabs({setPageToShow}: NavigationTabsProps){
 
-    function showPage(page: string){
+    function handleShowPage(page: string){
         if (page === 'journeys') {
             setPageToShow({journeys: true, stations: false});
         }
@@ -18,8 +18,8 @@ export default function NavigationTabs({setPageToShow}: NavigationTabsProps){
 
     return (
         <div className="navigation--container">
-            <div className="navigation--tab" onClick={()=>showPage('journeys')}>Journeys</div>
-            <div className="navigation--tab" onClick={()=> showPage('stations')}>Stations</div>
+            <div className="navigation--tab" onClick={()=>handleShowPage('journeys')}>Journeys</div>
+            <div className="navigation--tab" onClick={()=> handleShowPage('stations')}>Stations</div>
             <div className="navigation--tab">Map</div>
         </div>
     );
