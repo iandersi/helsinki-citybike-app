@@ -13,5 +13,3 @@ CREATE TABLE `journeys` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- hcba.journeys definition
-
