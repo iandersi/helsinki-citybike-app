@@ -2,6 +2,7 @@ import express from "express";
 const mariadb = require('mariadb');
 import * as dotenv from 'dotenv';
 import {Journey} from "./Journey";
+import {Station} from "./Station";
 dotenv.config();
 
 const app = express();
@@ -15,7 +16,7 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function databaseQuery(idNumberMin: number, idNumberMax: number) {
+async function journeyDatabaseQuery(idNumberMin: number, idNumberMax: number) {
   console.log(idNumberMin, idNumberMax);
   let conn;
   try {
@@ -30,6 +31,21 @@ async function databaseQuery(idNumberMin: number, idNumberMax: number) {
   }
 }
 
+async function stationDatabaseQuery(idNumberMin: number, idNumberMax: number) {
+  console.log(idNumberMin, idNumberMax);
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const stationArray = await conn.query("SELECT * FROM stations WHERE fid BETWEEN ? AND ? ORDER BY fid ASC", [idNumberMin, idNumberMax]) as Station[];
+    console.log(stationArray);
+    return stationArray;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    if (conn) await conn.end();
+  }
+}
+
 app.get('/journeys', async (req, res)=> {
   if (!req.query.idNumberMin) return res.status(400).send([]);
   if (!req.query.idNumberMax) return res.status(400).send([]);
@@ -37,8 +53,19 @@ app.get('/journeys', async (req, res)=> {
   const idNumberMax = req.query.idNumberMax.toString();
   const idNumberMinForQuery = parseInt(idNumberMin);
   const idNumberMaxForQuery = parseInt(idNumberMax);
-  const journeys = await databaseQuery(idNumberMinForQuery, idNumberMaxForQuery);
+  const journeys = await journeyDatabaseQuery(idNumberMinForQuery, idNumberMaxForQuery);
   res.send(journeys);
+})
+
+app.get('/stations', async (req, res) => {
+  if (!req.query.idNumberMin) return res.status(400).send([]);
+  if (!req.query.idNumberMax) return res.status(400).send([]);
+  const idNumberMin = req.query.idNumberMin.toString();
+  const idNumberMax = req.query.idNumberMax.toString();
+  const idNumberMinForQuery = parseInt(idNumberMin);
+  const idNumberMaxForQuery = parseInt(idNumberMax);
+  const stations = await stationDatabaseQuery(idNumberMinForQuery, idNumberMaxForQuery);
+  res.send(stations);
 })
 
 app.listen(8080, ()=> {

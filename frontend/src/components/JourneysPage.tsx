@@ -11,7 +11,7 @@ export default function JourneysPage() {
         max: 20
     });
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-    const {journeys, getJourneys, showSpinner} = useJourney(minAndMaxId.min, minAndMaxId.max);
+    const {journeys, getJourneys, showSpinner} = useJourney();
 
     useEffect(()=> {
         if (minAndMaxId.min > 1 && minAndMaxId.max > 19) {

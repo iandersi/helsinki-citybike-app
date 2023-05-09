@@ -1,13 +1,13 @@
 import {useState} from "react";
 import axios from "axios";
-import {Journey} from "../models/Journey";
+import {Station} from "../models/Station";
 
-export default function useJourney() {
+export default function useStation() {
 
-    function getJourneys(idNumberMin: number, idNumberMax: number) {
+    function getStations(idNumberMin: number, idNumberMax: number) {
         if (showSpinner) return;
         setShowSpinner(true);
-        axios.get<Journey[]>(`http://localhost:3000/journeys`, {
+        axios.get<Station[]>(`http://localhost:3000/stations`, {
             params: {
                 idNumberMin: idNumberMin,
                 idNumberMax: idNumberMax
@@ -15,17 +15,17 @@ export default function useJourney() {
         })
             .then(response => {
                 console.log(response.data);
-                setJourneys(response.data);
+                setStations(response.data);
 
             }).catch(err => {
-                console.log(err);
+            console.log(err);
         }).finally(()=>{
             setShowSpinner(false);
         })
     }
 
     const [showSpinner, setShowSpinner] = useState<boolean>();
-    const [journeys, setJourneys] = useState<Journey[]>([]);
+    const [stations, setStations] = useState<Station[]>([]);
 
-    return {journeys, getJourneys, showSpinner};
+    return {stations, getStations, showSpinner};
 }
