@@ -14,7 +14,7 @@ CREATE TABLE `stations` (
   `capacity` int DEFAULT NULL,
   `coordinate_x` int DEFAULT NULL,
   `coordinate_y` int DEFAULT NULL,
-  PRIMARY KEY (`fid`)
+  PRIMARY KEY (`station_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

@@ -36,7 +36,7 @@ async function stationDatabaseQuery(idNumberMin: number, idNumberMax: number) {
   let conn;
   try {
     conn = await pool.getConnection();
-    const stationArray = await conn.query("SELECT * FROM stations WHERE fid BETWEEN ? AND ? ORDER BY fid ASC", [idNumberMin, idNumberMax]) as Station[];
+    const stationArray = await conn.query("SELECT * FROM stations WHERE station_id BETWEEN ? AND ? ORDER BY station_id ASC", [idNumberMin, idNumberMax]) as Station[];
     console.log(stationArray);
     return stationArray;
   } catch (err) {

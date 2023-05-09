@@ -18,9 +18,9 @@ export default function NavigationTabs({setPageToShow}: NavigationTabsProps){
 
     return (
         <div className="navigation--container">
-            <div className="navigation--tab" onClick={()=>handleShowPage('journeys')}>Journeys</div>
-            <div className="navigation--tab" onClick={()=> handleShowPage('stations')}>Stations</div>
-            <div className="navigation--tab">Map</div>
+            <button className="navigation--tab" onClick={()=>handleShowPage('journeys')}>Journeys</button>
+            <button className="navigation--tab" onClick={()=> handleShowPage('stations')}>Stations</button>
+            <button className="navigation--tab">Map</button>
         </div>
     );
 }
