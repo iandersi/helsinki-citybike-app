@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import useJourney from "../hooks/useJourney";
 import {Button} from "react-bootstrap";
-import LoadingButton from "./LoadingButton";
+import LoadingSpinner from "./LoadingSpinner";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
@@ -43,7 +43,7 @@ export default function JourneysPage() {
                 <div>Covered Distance (m)</div>
                 <div>Duration (sec)</div>
             </div>
-            {showSpinner && <LoadingButton/>}
+            {showSpinner && <LoadingSpinner/>}
             {!showSpinner && journeys.map(journey => (
                 <div key={uuidv4()} className="journey-tab--journey-list">
                     <div className="journey-tab--journey-data">{journey.departure_date_time}</div>

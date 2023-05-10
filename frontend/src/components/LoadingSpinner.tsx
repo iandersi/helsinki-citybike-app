@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
-export default function LoadingButton() {
+export default function LoadingSpinner() {
     return (
         <>
             <Button variant="primary" disabled>

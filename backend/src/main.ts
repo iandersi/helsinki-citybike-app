@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import {Journey} from "./Journey";
 import {Station} from "./Station";
 import {parse} from "dotenv";
+import {StationDetails} from "./StationDetails";
 dotenv.config();
 
 const app = express();
@@ -47,7 +48,7 @@ async function getStationsBetweenMinAndMaxId(idNumberMin: number, idNumberMax: n
   }
 }
 
-async function getStationDataById(stationId: number){
+async function getStationById(stationId: number){
   console.log(stationId);
   let conn;
   try {
@@ -55,6 +56,23 @@ async function getStationDataById(stationId: number){
     const stationArray = await conn.query("SELECT * FROM stations WHERE station_id = ?", [stationId]) as Station[];
     console.log(stationArray);
     return stationArray[0];
+  } catch (err) {
+    console.log(err);
+  } finally {
+    if (conn) await conn.end();
+  }
+}
+
+async function getDeparturesAndReturnsCount(stationId: number) {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const departures = await conn.query("SELECT COUNT(id) as departures_count FROM journeys WHERE departure_station_id = ?", [stationId]);
+    const returns = await conn.query("SELECT COUNT(id) as returns_count FROM journeys WHERE return_station_id = ?", [stationId]);
+    console.log("dep", departures, "ret", returns);
+    const departureInt = Number(departures[0].departures_count);
+    const returnsInt = Number(returns[0].returns_count)
+    return [departureInt, returnsInt] as [number, number];
   } catch (err) {
     console.log(err);
   } finally {
@@ -88,8 +106,10 @@ app.get('/stations/data', async (req, res) => {
   if (!req.query.stationId) return res.status(400).send([]);
   const stationIdString = req.query.stationId.toString();
   const stationIdNumber = parseInt(stationIdString);
-  const stationData = await getStationDataById(stationIdNumber);
-  res.send(stationData);
+  const stationData = await getStationById(stationIdNumber);
+  const departureAndReturnData = await getDeparturesAndReturnsCount(stationIdNumber);
+  if (!departureAndReturnData) return res.status(400).send([]);
+  res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
 })
 
 app.listen(8080, ()=> {

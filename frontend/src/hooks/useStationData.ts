@@ -1,13 +1,13 @@
 import {useState} from "react";
-import axios from "axios";
-import {Station} from "../models/Station";
+import axios from "axios"
+import {StationDetails} from "../models/StationDetails";
 
 export default function useStationData() {
 
     function getStationData(stationId: number) {
-        if (showSpinner) return;
-        setShowSpinner(true);
-        axios.get<Station>(`http://localhost:3000/stations/data`, {
+        if (showStationDataSpinner) return;
+        setShowStationDataSpinner(true);
+        axios.get<StationDetails>(`http://localhost:3000/stations/data`, {
             params: {
                 stationId: stationId
             }
@@ -19,12 +19,12 @@ export default function useStationData() {
             }).catch(err => {
             console.log(err);
         }).finally(()=>{
-            setShowSpinner(false);
+            setShowStationDataSpinner(false);
         })
     }
 
-    const [showSpinner, setShowSpinner] = useState<boolean>(false);
-    const [stationData, setStationData] = useState<Station>();
+    const [showStationDataSpinner, setShowStationDataSpinner] = useState<boolean>(false);
+    const [stationData, setStationData] = useState<StationDetails>();
 
-    return {stationData, getStationData, showSpinner};
+    return {stationData, getStationData, showStationDataSpinner};
 }

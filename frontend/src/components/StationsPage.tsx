@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import useJourney from "../hooks/useJourney";
 import {Button} from "react-bootstrap";
-import LoadingButton from "./LoadingButton";
+import LoadingSpinner from "./LoadingSpinner";
 import { v4 as uuidv4 } from 'uuid';
 import useStation from "../hooks/useStation";
 import StationDataModal from "./StationDataModal";
@@ -15,7 +15,7 @@ export default function StationsPage() {
         max: 20
     });
     const {stations, getStations, showSpinner} = useStation();
-    const {stationData, getStationData} = useStationData();
+    const {stationData, getStationData, showStationDataSpinner} = useStationData();
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
     useEffect(()=> {
@@ -58,7 +58,7 @@ export default function StationsPage() {
                 <div>Coordinate x</div>
                 <div>Coordinate y</div>
             </div>
-            {showSpinner && <LoadingButton/>}
+            {showSpinner && <LoadingSpinner/>}
             {!showSpinner && stations.map(station => (
                 <div onClick={()=>handleShowModal(station.station_id)} key={uuidv4()} className="station-tab--station-list">
                     <div className="station-tab--station-data">{station.station_id}</div>
@@ -79,7 +79,7 @@ export default function StationsPage() {
                 <Button variant="outline-dark" disabled={isButtonDisabled} onClick={()=> previousPage()}>Prev</Button>
                 <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
             </div>
-            <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData}/>
+            <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData} showStationDataSpinner={showStationDataSpinner}/>
         </div>
     );
 }
