@@ -28,8 +28,8 @@ export default function StationDataModal({showModal, handleClose, stationData, s
                     </Modal.Header>
                     <Modal.Body>
                         <div>{stationData.station.address_fin} / {stationData.station.address_swe}</div>
-                        <div>10505 journeys started from this station</div>
-                        <div>13565 journeys ended at this station</div>
+                        <div>{stationData.departureCount} journeys started from this station</div>
+                        <div>{stationData.returnCount} journeys ended at this station</div>
                         <div>Link to map</div>
                     </Modal.Body>
                     <Modal.Footer>

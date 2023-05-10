@@ -10,6 +10,7 @@ CREATE TABLE `journeys` (
   `return_station_name` varchar(100) DEFAULT NULL,
   `covered_distance_m` int DEFAULT NULL,
   `duration_sec` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+  PRIMARY KEY (`id`),
+  KEY `journeys_departure_station_id_IDX` (`departure_station_id`) USING BTREE,
+  KEY `journeys_return_station_id_IDX` (`return_station_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
