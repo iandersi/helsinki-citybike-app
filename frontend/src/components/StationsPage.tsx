@@ -5,20 +5,17 @@ import LoadingButton from "./LoadingButton";
 import { v4 as uuidv4 } from 'uuid';
 import useStation from "../hooks/useStation";
 import StationDataModal from "./StationDataModal";
+import useStationData from "../hooks/useStationData";
 
 export default function StationsPage() {
 
     const [showModal, setShowModal] = useState(false);
-
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
-
     const [minAndMaxId, setMinAndMaxId] = useState({
         min: 1,
         max: 20
     });
-
     const {stations, getStations, showSpinner} = useStation();
+    const {stationData, getStationData} = useStationData();
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
     useEffect(()=> {
@@ -29,6 +26,13 @@ export default function StationsPage() {
         }
         getStations(minAndMaxId.min, minAndMaxId.max)
     }, [minAndMaxId]);
+
+    const handleCloseModal = () => setShowModal(false);
+
+    function handleShowModal(stationId: number){
+        getStationData(stationId);
+        setShowModal(true);
+    }
 
     function previousPage(){
         setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min - 20, max: minAndMaxId.max - 20});
@@ -56,7 +60,7 @@ export default function StationsPage() {
             </div>
             {showSpinner && <LoadingButton/>}
             {!showSpinner && stations.map(station => (
-                <div onClick={()=>handleShow()} key={uuidv4()} className="station-tab--station-list">
+                <div onClick={()=>handleShowModal(station.station_id)} key={uuidv4()} className="station-tab--station-list">
                     <div className="station-tab--station-data">{station.station_id}</div>
                     <div className="station-tab--station-data">{station.name_fin}</div>
                     <div className="station-tab--station-data">{station.name_swe}</div>
@@ -67,7 +71,7 @@ export default function StationsPage() {
                     <div className="station-tab--station-data">{station.city_swe}</div>
                     <div className="station-tab--station-data">{station.operator}</div>
                     <div className="station-tab--station-data">{station.capacity}</div>
-                    <div className="station-tab--station-data">{station.coordinate_x.toFixed()}</div>
+                    <div className="station-tab--station-data">{station.coordinate_x}</div>
                     <div className="station-tab--station-data">{station.coordinate_y}</div>
                 </div>
             ))}
@@ -75,7 +79,7 @@ export default function StationsPage() {
                 <Button variant="outline-dark" disabled={isButtonDisabled} onClick={()=> previousPage()}>Prev</Button>
                 <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
             </div>
-            <StationDataModal showModal={showModal} handleClose={handleClose}/>
+            <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData}/>
         </div>
     );
 }
