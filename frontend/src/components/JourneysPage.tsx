@@ -6,28 +6,33 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
 
-    const [minAndMaxId, setMinAndMaxId] = useState({
-        min: 1,
-        max: 20
-    });
+    const [id, setId] = useState(0);
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
     const {journeys, getJourneys, showSpinner} = useJourney();
 
     useEffect(()=> {
-        if (minAndMaxId.min > 1 && minAndMaxId.max > 19) {
+        if (id > 20) {
             setIsButtonDisabled(false);
         } else {
             setIsButtonDisabled(true);
         }
-        getJourneys(minAndMaxId.min, minAndMaxId.max)
-    }, [minAndMaxId]);
+        getJourneys(id)
+    }, [id]);
 
     function previousPage(){
-        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min - 20, max: minAndMaxId.max - 20});
+        const journeysIdArray = journeys.map(journey => journey.id);
+        const maxId = Math.max(...journeysIdArray);
+        console.log(maxId);
+        console.log(journeysIdArray.length);
+
     }
 
     function nextPage(){
-        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min + 20, max: minAndMaxId.max + 20});
+        const journeysIdArray = journeys.map(journey => journey.id);
+        const maxId = Math.max(...journeysIdArray);
+        console.log(maxId);
+        console.log(journeysIdArray.length);
+        setId(maxId);
     }
 
 

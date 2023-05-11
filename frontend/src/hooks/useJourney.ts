@@ -4,13 +4,12 @@ import {Journey} from "../models/Journey";
 
 export default function useJourney() {
 
-    function getJourneys(idNumberMin: number, idNumberMax: number) {
+    function getJourneys(id: number) {
         if (showSpinner) return;
         setShowSpinner(true);
         axios.get<Journey[]>(`http://localhost:3000/journeys`, {
             params: {
-                idNumberMin: idNumberMin,
-                idNumberMax: idNumberMax
+                id: id
             }
         })
             .then(response => {

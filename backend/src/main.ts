@@ -3,7 +3,6 @@ const mariadb = require('mariadb');
 import * as dotenv from 'dotenv';
 import {Journey} from "./Journey";
 import {Station} from "./Station";
-import {parse} from "dotenv";
 import {StationDetails} from "./StationDetails";
 dotenv.config();
 
@@ -18,12 +17,12 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function getJourneysBetweenMinAndMaxId(idNumberMin: number, idNumberMax: number) {
-  console.log(idNumberMin, idNumberMax);
+async function getJourneysById(id: number){
+  console.log(id);
   let conn;
   try {
     conn = await pool.getConnection();
-    const journeyArray = await conn.query("SELECT * FROM journeys WHERE id BETWEEN ? AND ? ORDER BY id ASC", [idNumberMin, idNumberMax]) as Journey[];
+    const journeyArray = await conn.query("SELECT * FROM journeys WHERE id > ? ORDER BY id ASC LIMIT 21", [id]) as Journey[];
     console.log(journeyArray);
     return journeyArray;
   } catch (err) {
@@ -81,15 +80,13 @@ async function getDeparturesAndReturnsCount(stationId: number) {
 }
 
 app.get('/journeys', async (req, res)=> {
-  if (!req.query.idNumberMin) return res.status(400).send([]);
-  if (!req.query.idNumberMax) return res.status(400).send([]);
-  const idNumberMin = req.query.idNumberMin.toString();
-  const idNumberMax = req.query.idNumberMax.toString();
-  const idNumberMinForQuery = parseInt(idNumberMin);
-  const idNumberMaxForQuery = parseInt(idNumberMax);
-  const journeys = await getJourneysBetweenMinAndMaxId(idNumberMinForQuery, idNumberMaxForQuery);
+  if (!req.query.id) return res.status(400).send([]);
+  const idString = req.query.id.toString();
+  const idNumber = parseInt(idString);
+  const journeys = await getJourneysById(idNumber);
   res.send(journeys);
-})
+});
+
 
 app.get('/stations', async (req, res) => {
   if (!req.query.idNumberMin) return res.status(400).send([]);
@@ -100,7 +97,7 @@ app.get('/stations', async (req, res) => {
   const idNumberMaxForQuery = parseInt(idNumberMax);
   const stations = await getStationsBetweenMinAndMaxId(idNumberMinForQuery, idNumberMaxForQuery);
   res.send(stations);
-})
+});
 
 app.get('/stations/data', async (req, res) => {
   if (!req.query.stationId) return res.status(400).send([]);
@@ -110,7 +107,7 @@ app.get('/stations/data', async (req, res) => {
   const departureAndReturnData = await getDeparturesAndReturnsCount(stationIdNumber);
   if (!departureAndReturnData) return res.status(400).send([]);
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
-})
+});
 
 app.listen(8080, ()=> {
   console.log('listening to port 8080');
