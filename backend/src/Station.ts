@@ -10,6 +10,6 @@ export type Station = {
     city_swe: string,
     operator: string,
     capacity: number,
-    coordinate_x: number,
-    coordinate_y: number
+    coordinate_x: string,
+    coordinate_y: string
 }

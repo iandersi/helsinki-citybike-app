@@ -12,8 +12,8 @@ CREATE TABLE `stations` (
   `city_swe` varchar(100) DEFAULT NULL,
   `operator` varchar(100) DEFAULT NULL,
   `capacity` int DEFAULT NULL,
-  `coordinate_x` float DEFAULT NULL,
-  `coordinate_y` float DEFAULT NULL,
+  `coordinate_x` varchar(100) DEFAULT NULL,
+  `coordinate_y` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`station_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
