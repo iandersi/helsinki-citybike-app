@@ -3,6 +3,7 @@ import useJourney from "../hooks/useJourney";
 import {Button} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns'
 
 export default function JourneysPage() {
 
@@ -22,20 +23,20 @@ export default function JourneysPage() {
                 <div>Departure Station Name</div>
                 <div>Return Station Id</div>
                 <div>Return Station Name</div>
-                <div>Covered Distance (m)</div>
-                <div>Duration (sec)</div>
+                <div>Covered Distance (km)</div>
+                <div>Duration (min)</div>
             </div>
             {showSpinner && <LoadingSpinner/>}
             {!showSpinner && journeys.content.map(journey => (
                 <div key={uuidv4()} className="journey-tab--journey-list">
-                    <div className="journey-tab--journey-data">{journey.departure_date_time}</div>
-                    <div className="journey-tab--journey-data">{journey.return_date_time}</div>
+                    <div className="journey-tab--journey-data">{format(new Date(journey.departure_date_time), 'dd.MM.yyyy')}</div>
+                    <div className="journey-tab--journey-data">{format(new Date(journey.return_date_time), 'dd.MM.yyyy')}</div>
                     <div className="journey-tab--journey-data">{journey.departure_station_id}</div>
                     <div className="journey-tab--journey-data">{journey.departure_station_name}</div>
                     <div className="journey-tab--journey-data">{journey.return_station_id}</div>
                     <div className="journey-tab--journey-data">{journey.return_station_name}</div>
-                    <div className="journey-tab--journey-data">{journey.covered_distance_m}</div>
-                    <div className="journey-tab--journey-data">{journey.duration_sec}</div>
+                    <div className="journey-tab--journey-data">{(journey.covered_distance_m/1000).toFixed(1)}</div>
+                    <div className="journey-tab--journey-data">{(journey.duration_sec/60).toFixed(2)}</div>
                 </div>
             ))}
             <div className="journey-tab--buttons">
