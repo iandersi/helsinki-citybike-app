@@ -6,34 +6,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
 
-    // const [idAndDirection, setIdAndDirection] = useState({
-    //     id: 0,
-    //     direction: 'default'
-    // });
-    const [idMinAndMax, setidMinAndMax] = useState({
-        idMin: 0,
-        idMax: 20
-    });
+    const {journeys, getJourneys, showSpinner} = useJourney();
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-    const {journeys, getJourneys, showSpinner, journeysTest, getJourneysTest} = useJourney();
+
 
 
     useEffect(()=> {
-        // getJourneys(idAndDirection.id, idAndDirection.direction)
-        getJourneysTest(idMinAndMax.idMin, idMinAndMax.idMax);
-    }, [idMinAndMax]);
-
-    // function previousPage(){
-    //     const journeysIdArray = journeys.map(journey => journey.id);
-    //     const maxId = Math.max(...journeysIdArray);
-    //     setIdAndDirection({id: maxId, direction: 'prev'});
-    // }
-    //
-    // function nextPage(){
-    //     const journeysIdArray = journeys.map(journey => journey.id);
-    //     const maxId = Math.max(...journeysIdArray);
-    //     setIdAndDirection({id: maxId, direction: 'next'});
-    // }
+        getJourneys(1);
+    }, []);
 
 
     return (
@@ -49,7 +29,7 @@ export default function JourneysPage() {
                 <div>Duration (sec)</div>
             </div>
             {showSpinner && <LoadingSpinner/>}
-            {!showSpinner && journeysTest.content.map(journey => (
+            {!showSpinner && journeys.content.map(journey => (
                 <div key={uuidv4()} className="journey-tab--journey-list">
                     <div className="journey-tab--journey-data">{journey.departure_date_time}</div>
                     <div className="journey-tab--journey-data">{journey.return_date_time}</div>
@@ -62,8 +42,8 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark" onClick={()=> console.log('prev')}>Prev</Button>
-                <Button variant="outline-dark" onClick={()=> console.log('next')}>Next</Button>
+                <Button variant="outline-dark" onClick={()=> getJourneys(journeys.prevPageId)}>Prev</Button>
+                <Button variant="outline-dark" onClick={()=> getJourneys(journeys.nextPageId)}>Next</Button>
             </div>
         </div>
     );

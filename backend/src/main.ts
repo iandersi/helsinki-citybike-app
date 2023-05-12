@@ -18,35 +18,23 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function getPage(idPrev: number, idNext: number){
+async function getPage(id: number){
   let conn;
   try {
     conn = await pool.getConnection();
-    const journeysPrev = await conn.query("SELECT * FROM journeys WHERE id < ? ORDER BY id ASC LIMIT 21", [idPrev]) as Journey[];
-    const journeysNext = await conn.query("SELECT * FROM journeys WHERE id > ? ORDER BY id ASC LIMIT 21", [idNext]) as Journey[];
+    const journeysNext = await conn.query("SELECT * FROM journeys WHERE id >= ? ORDER BY id ASC LIMIT 21", [id]) as Journey[];
+
+    const nextPageMinId = Math.min(...journeysNext.map(id => id.id));
+    const journeysPrev = await conn.query("SELECT * FROM journeys WHERE id <= ? ORDER BY id DESC LIMIT 21", [nextPageMinId]) as Journey[];
+
+    const prevPageId = Math.min(...journeysPrev.map(id => id.id));
+    const nextPageId = Math.max(...journeysNext.map(id => id.id));
+
     const isPrevPage = !!journeysPrev[20];
     const isNextPage = !!journeysNext[20];
+
     const journeys = journeysNext.slice(0, 20);
-    console.log("prev", isPrevPage, "next", isNextPage);
-    return {content: journeys, prev: isPrevPage, next: isNextPage} as Page;
-  } catch (err) {
-    console.log(err);
-  } finally {
-    if (conn) await conn.end();
-  }
-}
-
-async function getJourneysById(id: number, direction: string){
-  let conn;
-  try {
-    conn = await pool.getConnection();
-    if (direction === 'default' || direction === 'next') {
-      return await conn.query("SELECT * FROM journeys WHERE id > ? ORDER BY id ASC LIMIT 20", [id]) as Journey[];
-    }
-
-    if (direction === 'prev') {
-      return await conn.query("SELECT * FROM journeys WHERE id < ? ORDER BY id ASC LIMIT 20", [id]) as Journey[];
-    }
+    return {content: journeys, prevPageId: prevPageId, nextPageId: nextPageId, prev: isPrevPage, next: isNextPage} as Page;
 
   } catch (err) {
     console.log(err);
@@ -102,16 +90,6 @@ async function getDeparturesAndReturnsCount(stationId: number) {
   }
 }
 
-app.get('/journeys', async (req, res)=> {
-  if (!req.query.id) return res.status(400).send([]);
-  if (!req.query.direction) return res.status(400).send([]);
-  const idString = req.query.id.toString();
-  const direction = req.query.direction.toString();
-  const idNumber = parseInt(idString);
-  const journeys = await getJourneysById(idNumber, direction);
-  res.send(journeys);
-});
-
 
 app.get('/stations', async (req, res) => {
   if (!req.query.idNumberMin) return res.status(400).send([]);
@@ -134,15 +112,13 @@ app.get('/stations/data', async (req, res) => {
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
 });
 
-app.get('/test', async (req, res) => {
-  if (!req.query.idMax) return res.status(400).send([]);
-  if (!req.query.idMin) return res.status(400).send([]);
-  const idMaxString = req.query.idMax.toString();
-  const idMinString = req.query.idMin.toString();
-  const idMaxNumber = parseInt(idMaxString);
-  const idMinNumber = parseInt(idMinString);
-  const test = await getPage(idMaxNumber, idMinNumber);
-  res.send(test);
+app.get('/journeys', async (req, res) => {
+  if (!req.query.id) return res.status(400).send([]);
+  const idString = req.query.id.toString();
+  const idNumber = parseInt(idString);
+  console.log(idNumber);
+  const journeys = await getPage(idNumber);
+  res.send(journeys);
 });
 
 
