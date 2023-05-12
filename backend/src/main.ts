@@ -5,6 +5,7 @@ import {Journey} from "./Journey";
 import {Station} from "./Station";
 import {StationDetails} from "./StationDetails";
 import {JourneysPage} from "./JourneysPage";
+import {StationsPage} from "./StationsPage";
 dotenv.config();
 
 const app = express();
@@ -18,7 +19,7 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-async function getPage(id: number){
+async function getJourneysPage(id: number){
   let conn;
   try {
     conn = await pool.getConnection();
@@ -43,14 +44,24 @@ async function getPage(id: number){
   }
 }
 
-async function getStationsBetweenMinAndMaxId(idNumberMin: number, idNumberMax: number) {
-  console.log(idNumberMin, idNumberMax);
+async function getStationsPage(id: number){
   let conn;
   try {
     conn = await pool.getConnection();
-    const stationArray = await conn.query("SELECT * FROM stations WHERE station_id BETWEEN ? AND ? ORDER BY station_id ASC", [idNumberMin, idNumberMax]) as Station[];
-    console.log(stationArray);
-    return stationArray;
+    const stationsNext = await conn.query("SELECT * FROM stations WHERE fid >= ? ORDER BY fid ASC LIMIT 21", [id]) as Station[];
+
+    const nextPageMinId = Math.min(...stationsNext.map(id => id.fid));
+    const stationsPrev = await conn.query("SELECT * FROM stations WHERE fid <= ? ORDER BY fid DESC LIMIT 21", [nextPageMinId]) as Station[];
+
+    const prevPageId = Math.min(...stationsPrev.map(id => id.fid));
+    const nextPageId = Math.max(...stationsNext.map(id => id.fid));
+
+    const isPrevPage = !!stationsPrev[20];
+    const isNextPage = !!stationsNext[20];
+
+    const stations = stationsNext.slice(0, 20);
+    return {content: stations, prevPageId: prevPageId, nextPageId: nextPageId, prev: isPrevPage, next: isNextPage} as StationsPage;
+
   } catch (err) {
     console.log(err);
   } finally {
@@ -58,7 +69,8 @@ async function getStationsBetweenMinAndMaxId(idNumberMin: number, idNumberMax: n
   }
 }
 
-async function getStationById(stationId: number){
+
+async function getStationByStationId(stationId: number){
   console.log(stationId);
   let conn;
   try {
@@ -92,13 +104,10 @@ async function getDeparturesAndReturnsCount(stationId: number) {
 
 
 app.get('/stations', async (req, res) => {
-  if (!req.query.idNumberMin) return res.status(400).send([]);
-  if (!req.query.idNumberMax) return res.status(400).send([]);
-  const idNumberMin = req.query.idNumberMin.toString();
-  const idNumberMax = req.query.idNumberMax.toString();
-  const idNumberMinForQuery = parseInt(idNumberMin);
-  const idNumberMaxForQuery = parseInt(idNumberMax);
-  const stations = await getStationsBetweenMinAndMaxId(idNumberMinForQuery, idNumberMaxForQuery);
+  if (!req.query.id) return res.status(400).send([]);
+  const idString = req.query.id.toString();
+  const idNumber = parseInt(idString);
+  const stations = await getStationsPage(idNumber);
   res.send(stations);
 });
 
@@ -106,7 +115,7 @@ app.get('/stations/data', async (req, res) => {
   if (!req.query.stationId) return res.status(400).send([]);
   const stationIdString = req.query.stationId.toString();
   const stationIdNumber = parseInt(stationIdString);
-  const stationData = await getStationById(stationIdNumber);
+  const stationData = await getStationByStationId(stationIdNumber);
   const departureAndReturnData = await getDeparturesAndReturnsCount(stationIdNumber);
   if (!departureAndReturnData) return res.status(400).send([]);
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
@@ -117,7 +126,7 @@ app.get('/journeys', async (req, res) => {
   const idString = req.query.id.toString();
   const idNumber = parseInt(idString);
   console.log(idNumber);
-  const journeys = await getPage(idNumber);
+  const journeys = await getJourneysPage(idNumber);
   res.send(journeys);
 });
 

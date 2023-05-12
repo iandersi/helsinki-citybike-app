@@ -1,16 +1,15 @@
 import {useState} from "react";
 import axios from "axios";
-import {Station} from "../models/Station";
+import {StationsPage} from "../models/StationsPage";
 
 export default function useStation() {
 
-    function getStations(idNumberMin: number, idNumberMax: number) {
+    function getStations(id: number) {
         if (showSpinner) return;
         setShowSpinner(true);
-        axios.get<Station[]>(`http://localhost:3000/stations`, {
+        axios.get<StationsPage>(`http://localhost:3000/stations`, {
             params: {
-                idNumberMin: idNumberMin,
-                idNumberMax: idNumberMax
+                id: id
             }
         })
             .then(response => {
@@ -25,7 +24,7 @@ export default function useStation() {
     }
 
     const [showSpinner, setShowSpinner] = useState<boolean>();
-    const [stations, setStations] = useState<Station[]>([]);
+    const [stations, setStations] = useState<StationsPage>({content: [], prev: false, next: true, prevPageId: 1, nextPageId: 20});
 
     return {stations, getStations, showSpinner};
 }

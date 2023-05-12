@@ -10,22 +10,12 @@ import useStationData from "../hooks/useStationData";
 export default function StationsPage() {
 
     const [showModal, setShowModal] = useState(false);
-    const [minAndMaxId, setMinAndMaxId] = useState({
-        min: 1,
-        max: 20
-    });
     const {stations, getStations, showSpinner} = useStation();
     const {stationData, getStationData, showStationDataSpinner} = useStationData();
-    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
     useEffect(()=> {
-        if (minAndMaxId.min > 1 && minAndMaxId.max > 19) {
-            setIsButtonDisabled(false);
-        } else {
-            setIsButtonDisabled(true);
-        }
-        getStations(minAndMaxId.min, minAndMaxId.max)
-    }, [minAndMaxId]);
+        getStations(1)
+    }, []);
 
     const handleCloseModal = () => setShowModal(false);
 
@@ -34,13 +24,6 @@ export default function StationsPage() {
         setShowModal(true);
     }
 
-    function previousPage(){
-        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min - 20, max: minAndMaxId.max - 20});
-    }
-
-    function nextPage(){
-        setMinAndMaxId({...minAndMaxId, min: minAndMaxId.min + 20, max: minAndMaxId.max + 20});
-    }
 
     return (
         <div className="station-tab--container">
@@ -59,7 +42,7 @@ export default function StationsPage() {
                 <div>Coordinate y</div>
             </div>
             {showSpinner && <LoadingSpinner/>}
-            {!showSpinner && stations.map(station => (
+            {!showSpinner && stations.content.map(station => (
                 <div onClick={()=>handleShowModal(station.station_id)} key={uuidv4()} className="station-tab--station-list">
                     <div className="station-tab--station-data">{station.station_id}</div>
                     <div className="station-tab--station-data">{station.name_fin}</div>
@@ -76,8 +59,8 @@ export default function StationsPage() {
                 </div>
             ))}
             <div className="station-tab--buttons">
-                <Button variant="outline-dark" disabled={isButtonDisabled} onClick={()=> previousPage()}>Prev</Button>
-                <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
+                <Button variant="outline-dark" disabled={!stations.prev} onClick={()=> getStations(stations.prevPageId)}>Prev</Button>
+                <Button variant="outline-dark" disabled={!stations.next} onClick={()=> getStations(stations.nextPageId)}>Next</Button>
             </div>
             <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData} showStationDataSpinner={showStationDataSpinner}/>
         </div>
