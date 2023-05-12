@@ -1,6 +1,6 @@
 import {Journey} from "./Journey";
 
-export type Page = {
+export type JourneysPage = {
     content: Journey[],
     prevPageId: number,
     nextPageId: number,

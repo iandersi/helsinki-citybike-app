@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import {Journey} from "./Journey";
 import {Station} from "./Station";
 import {StationDetails} from "./StationDetails";
-import {Page} from "./Page";
+import {JourneysPage} from "./JourneysPage";
 dotenv.config();
 
 const app = express();
@@ -34,7 +34,7 @@ async function getPage(id: number){
     const isNextPage = !!journeysNext[20];
 
     const journeys = journeysNext.slice(0, 20);
-    return {content: journeys, prevPageId: prevPageId, nextPageId: nextPageId, prev: isPrevPage, next: isNextPage} as Page;
+    return {content: journeys, prevPageId: prevPageId, nextPageId: nextPageId, prev: isPrevPage, next: isNextPage} as JourneysPage;
 
   } catch (err) {
     console.log(err);
