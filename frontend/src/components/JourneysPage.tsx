@@ -9,12 +9,9 @@ export default function JourneysPage() {
     const {journeys, getJourneys, showSpinner} = useJourney();
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
-
-
     useEffect(()=> {
         getJourneys(1);
     }, []);
-
 
     return (
         <div className="journey-tab--container">
@@ -42,8 +39,8 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark" onClick={()=> getJourneys(journeys.prevPageId)}>Prev</Button>
-                <Button variant="outline-dark" onClick={()=> getJourneys(journeys.nextPageId)}>Next</Button>
+                <Button variant="outline-dark" disabled={!journeys.prev} onClick={()=> getJourneys(journeys.prevPageId)}>Prev</Button>
+                <Button variant="outline-dark" disabled={!journeys.next} onClick={()=> getJourneys(journeys.nextPageId)}>Next</Button>
             </div>
         </div>
     );
