@@ -6,34 +6,34 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function JourneysPage() {
 
-    const [id, setId] = useState(0);
+    // const [idAndDirection, setIdAndDirection] = useState({
+    //     id: 0,
+    //     direction: 'default'
+    // });
+    const [idMinAndMax, setidMinAndMax] = useState({
+        idMin: 0,
+        idMax: 20
+    });
     const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-    const {journeys, getJourneys, showSpinner} = useJourney();
+    const {journeys, getJourneys, showSpinner, journeysTest, getJourneysTest} = useJourney();
+
 
     useEffect(()=> {
-        if (id > 20) {
-            setIsButtonDisabled(false);
-        } else {
-            setIsButtonDisabled(true);
-        }
-        getJourneys(id)
-    }, [id]);
+        // getJourneys(idAndDirection.id, idAndDirection.direction)
+        getJourneysTest(idMinAndMax.idMin, idMinAndMax.idMax);
+    }, [idMinAndMax]);
 
-    function previousPage(){
-        const journeysIdArray = journeys.map(journey => journey.id);
-        const maxId = Math.max(...journeysIdArray);
-        console.log(maxId);
-        console.log(journeysIdArray.length);
-
-    }
-
-    function nextPage(){
-        const journeysIdArray = journeys.map(journey => journey.id);
-        const maxId = Math.max(...journeysIdArray);
-        console.log(maxId);
-        console.log(journeysIdArray.length);
-        setId(maxId);
-    }
+    // function previousPage(){
+    //     const journeysIdArray = journeys.map(journey => journey.id);
+    //     const maxId = Math.max(...journeysIdArray);
+    //     setIdAndDirection({id: maxId, direction: 'prev'});
+    // }
+    //
+    // function nextPage(){
+    //     const journeysIdArray = journeys.map(journey => journey.id);
+    //     const maxId = Math.max(...journeysIdArray);
+    //     setIdAndDirection({id: maxId, direction: 'next'});
+    // }
 
 
     return (
@@ -49,7 +49,7 @@ export default function JourneysPage() {
                 <div>Duration (sec)</div>
             </div>
             {showSpinner && <LoadingSpinner/>}
-            {!showSpinner && journeys.map(journey => (
+            {!showSpinner && journeysTest.content.map(journey => (
                 <div key={uuidv4()} className="journey-tab--journey-list">
                     <div className="journey-tab--journey-data">{journey.departure_date_time}</div>
                     <div className="journey-tab--journey-data">{journey.return_date_time}</div>
@@ -62,8 +62,8 @@ export default function JourneysPage() {
                 </div>
             ))}
             <div className="journey-tab--buttons">
-                <Button variant="outline-dark" disabled={isButtonDisabled} onClick={()=> previousPage()}>Prev</Button>
-                <Button variant="outline-dark" onClick={()=> nextPage()}>Next</Button>
+                <Button variant="outline-dark" onClick={()=> console.log('prev')}>Prev</Button>
+                <Button variant="outline-dark" onClick={()=> console.log('next')}>Next</Button>
             </div>
         </div>
     );
