@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import useJourney from "../hooks/useJourney";
-import {Button} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import { v4 as uuidv4 } from 'uuid';
 import useStation from "../hooks/useStation";
 import StationDataModal from "./StationDataModal";
 import useStationData from "../hooks/useStationData";
+import {format} from "date-fns";
 
 export default function StationsPage() {
 
@@ -27,35 +28,43 @@ export default function StationsPage() {
 
     return (
         <div className="station-tab--container">
-            <div className="station-tab--header">
-                <div>Station Id</div>
-                <div>Name (fi)</div>
-                <div>Name (swe)</div>
-                <div>Name (en)</div>
-                <div>Address (fi)</div>
-                <div>Address (swe)</div>
-                <div>City (fi)</div>
-                <div>City (swe)</div>
-                <div>Operator</div>
-                <div>Capacity</div>
-                <div>Location</div>
-            </div>
-            {showSpinner && <LoadingSpinner/>}
-            {!showSpinner && stations.content.map(station => (
-                <div onClick={()=>handleShowModal(station.station_id)} key={uuidv4()} className="station-tab--station-list">
-                    <div className="station-tab--station-data">{station.station_id}</div>
-                    <div className="station-tab--station-data">{station.name_fin}</div>
-                    <div className="station-tab--station-data">{station.name_swe}</div>
-                    <div className="station-tab--station-data">{station.name_eng}</div>
-                    <div className="station-tab--station-data">{station.address_fin}</div>
-                    <div className="station-tab--station-data">{station.address_swe}</div>
-                    <div className="station-tab--station-data">{station.city_fin}</div>
-                    <div className="station-tab--station-data">{station.city_swe}</div>
-                    <div className="station-tab--station-data">{station.operator}</div>
-                    <div className="station-tab--station-data">{station.capacity}</div>
-                    <div className="station-tab--station-data"><a href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`} target={'_blank'}>Show on map</a></div>
-                </div>
-            ))}
+
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>Station Id</th>
+                    <th>Name (fi)</th>
+                    <th>Name (swe)</th>
+                    <th>Name (en)</th>
+                    <th>Address (fi)</th>
+                    <th>Address (swe)</th>
+                    <th>City (fi)</th>
+                    <th>City (swe)</th>
+                    <th>Operator</th>
+                    <th>Capacity</th>
+                    <th>Location</th>
+                </tr>
+                </thead>
+                <tbody>
+                {showSpinner && <LoadingSpinner/>}
+                {!showSpinner && stations.content.map(station => (
+                    <tr onClick={()=>handleShowModal(station.station_id)} key={uuidv4()}>
+                        <td>{station.station_id}</td>
+                        <td>{station.name_fin}</td>
+                        <td>{station.name_swe}</td>
+                        <td>{station.name_eng}</td>
+                        <td>{station.address_fin}</td>
+                        <td>{station.address_swe}</td>
+                        <td>{station.city_fin}</td>
+                        <td>{station.city_swe}</td>
+                        <td>{station.operator}</td>
+                        <td>{station.capacity}</td>
+                        <td><a href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`} target={'_blank'}>Show on map</a></td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+
             <div className="station-tab--buttons">
                 <Button variant="outline-dark" disabled={!stations.prev} onClick={()=> getStations(stations.prevPageId)}>Prev</Button>
                 <Button variant="outline-dark" disabled={!stations.next} onClick={()=> getStations(stations.nextPageId)}>Next</Button>
