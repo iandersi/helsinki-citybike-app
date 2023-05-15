@@ -30,7 +30,7 @@ export default function StationDataModal({showModal, handleClose, stationData, s
                         <div>{stationData.station.address_fin} / {stationData.station.address_swe}</div>
                         <div>{stationData.departureCount} journeys started from this station</div>
                         <div>{stationData.returnCount} journeys ended at this station</div>
-                        <div>Link to map</div>
+                        <div><a href={`https://www.google.com/maps/place/${stationData.station.coordinate_y},${stationData.station.coordinate_x}`} target={'_blank'}>Show on map</a></div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={() => handleClose()}>Close</Button>

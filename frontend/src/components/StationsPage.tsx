@@ -38,8 +38,7 @@ export default function StationsPage() {
                 <div>City (swe)</div>
                 <div>Operator</div>
                 <div>Capacity</div>
-                <div>Coordinate x</div>
-                <div>Coordinate y</div>
+                <div>Location</div>
             </div>
             {showSpinner && <LoadingSpinner/>}
             {!showSpinner && stations.content.map(station => (
@@ -54,8 +53,7 @@ export default function StationsPage() {
                     <div className="station-tab--station-data">{station.city_swe}</div>
                     <div className="station-tab--station-data">{station.operator}</div>
                     <div className="station-tab--station-data">{station.capacity}</div>
-                    <div className="station-tab--station-data">{station.coordinate_x}</div>
-                    <div className="station-tab--station-data">{station.coordinate_y}</div>
+                    <div className="station-tab--station-data"><a href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`} target={'_blank'}>Show on map</a></div>
                 </div>
             ))}
             <div className="station-tab--buttons">
