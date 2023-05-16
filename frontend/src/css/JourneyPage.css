@@ -1,3 +1,8 @@
+.journey-tab--form-select {
+    display: flex;
+    justify-content: center;
+}
+
 .journey-tab--buttons {
     text-align: center;
 }

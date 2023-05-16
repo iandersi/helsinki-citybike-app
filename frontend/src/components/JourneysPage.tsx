@@ -1,20 +1,58 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import useJourney from "../hooks/useJourney";
-import {Button, Table} from "react-bootstrap";
+import {Button, Form, Table} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import {v4 as uuidv4} from 'uuid';
 import {format} from 'date-fns'
+import useStation from "../hooks/useStation";
 
 export default function JourneysPage() {
 
     const {journeys, getJourneys, showSpinner} = useJourney();
+    const [departureStationId, setDepartureStationId] = useState<number>();
+    const [returnStationId, setReturnStationId] = useState<number>();
+    const {allStations, getAllStations} = useStation();
+
+    console.log('Dep:', departureStationId, 'Ret:', returnStationId);
 
     useEffect(() => {
         getJourneys(1);
+        getAllStations();
     }, []);
+
+    function getFilteredJourneys(){
+
+    }
+
 
     return (
         <div className="journey-tab--container">
+            <div className="journey-tab--form-select">
+
+                <div>
+                    <Form.Select value={departureStationId}
+                                 onChange={(e) => setDepartureStationId(parseInt(e.target.value))}
+                                 aria-label="Default select example">
+                        <option>Choose departure station</option>
+                        {allStations?.map(station => <option key={station.station_id}
+                                                             value={station.station_id}>{station.name_eng}</option>)}
+                    </Form.Select>
+                </div>
+
+                <div>
+                    <Form.Select value={returnStationId}
+                                 onChange={(e) => setReturnStationId(parseInt(e.target.value))}
+                                 aria-label="Default select example">
+                        <option>Choose return station</option>
+                        {allStations?.map(station => <option key={station.station_id}
+                                                             value={station.station_id}>{station.name_eng}</option>)}
+                    </Form.Select></div>
+
+                <Button onClick={() => console.log()}>Confirm</Button>
+                <Button onClick={() => () => console.log()}>Clear</Button>
+
+            </div>
+
             <Table striped bordered hover>
                 <thead>
                 <tr>
