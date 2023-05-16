@@ -24,6 +24,25 @@ export default function useStation() {
         })
     }
 
+    function getFilteredStation(id: number){
+        if (showSpinner) return;
+        setShowSpinner(true);
+        axios.get<Station>(`http://localhost:3000/station`, {
+            params: {
+                id: id
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                setFilteredStation(response.data);
+
+            }).catch(err => {
+            console.log(err);
+        }).finally(() => {
+            setShowSpinner(false);
+        })
+    }
+
     function getAllStations(){
         axios.get<Station[]>(`http://localhost:3000/stations/id`)
             .then(response => {
@@ -36,7 +55,8 @@ export default function useStation() {
     }
 
     const [showSpinner, setShowSpinner] = useState<boolean>();
-    const [allStations, setAllStations] = useState<Station[]>();
+    const [allStations, setAllStations] = useState<Station[]>()
+    const [filteredStation, setFilteredStation] = useState<Station>();
     const [stations, setStations] = useState<StationsPage>({
         content: [],
         prev: false,
@@ -45,5 +65,5 @@ export default function useStation() {
         nextPageId: 20
     });
 
-    return {stations, getStations, showSpinner, getAllStations, allStations};
+    return {stations, getStations, showSpinner, getAllStations, allStations, filteredStation, getFilteredStation, setFilteredStation};
 }

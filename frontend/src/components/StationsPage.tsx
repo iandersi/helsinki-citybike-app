@@ -10,10 +10,10 @@ export default function StationsPage() {
 
     const [showModal, setShowModal] = useState(false);
     const [stationId, setStationId] = useState<number>();
-    const {stations, getStations, showSpinner, getAllStations, allStations} = useStation();
+    const {stations, getStations, showSpinner, getAllStations, allStations, filteredStation, getFilteredStation, setFilteredStation} = useStation();
     const {stationData, getStationData, showStationDataSpinner} = useStationData();
 
-    console.log(stationId);
+    console.log(filteredStation);
 
     useEffect(() => {
         getStations(1);
@@ -29,8 +29,9 @@ export default function StationsPage() {
 
     function filterStations() {
         if (!stationId) return;
-        getStations(stationId);
+        getFilteredStation(stationId);
     }
+
 
 
     return (
@@ -42,7 +43,8 @@ export default function StationsPage() {
                     {allStations?.map(station => <option key={station.station_id}
                                                          value={station.station_id}>{station.name_eng}</option>)}
                 </Form.Select>
-                <Button>Confirm</Button>
+                <Button onClick={()=>filterStations()}>Confirm</Button>
+                <Button onClick={()=> setFilteredStation(undefined)}>Clear</Button>
             </div>
             <Table striped bordered hover>
                 <thead>
@@ -61,8 +63,24 @@ export default function StationsPage() {
                 </tr>
                 </thead>
                 <tbody>
-
-                {!showSpinner && stations.content.map(station => (
+                {!showSpinner && filteredStation &&
+                    <tr onClick={()=> handleShowModal(filteredStation?.station_id)}>
+                        <td>{filteredStation.station_id}</td>
+                        <td>{filteredStation.name_fin}</td>
+                        <td>{filteredStation.name_swe}</td>
+                        <td>{filteredStation.name_eng}</td>
+                        <td>{filteredStation.address_fin}</td>
+                        <td>{filteredStation.address_swe}</td>
+                        <td>{filteredStation.city_fin}</td>
+                        <td>{filteredStation.city_swe}</td>
+                        <td>{filteredStation.operator}</td>
+                        <td>{filteredStation.capacity}</td>
+                        <td><a
+                            href={`https://www.google.com/maps/place/${filteredStation.coordinate_y},${filteredStation.coordinate_x}`}
+                            target={'_blank'}>Show on map</a></td>
+                    </tr>
+                }
+                {!showSpinner && !filteredStation && stations.content.map(station => (
                     <tr onClick={() => handleShowModal(station.station_id)} key={uuidv4()}>
                         <td>{station.station_id}</td>
                         <td>{station.name_fin}</td>
@@ -82,12 +100,12 @@ export default function StationsPage() {
                 </tbody>
             </Table>
             {showSpinner && <LoadingSpinner/>}
-            <div className="station-tab--buttons">
+            {!showSpinner && !filteredStation && <div className="station-tab--buttons">
                 <Button variant="outline-dark" disabled={!stations.prev}
                         onClick={() => getStations(stations.prevPageId)}>Prev</Button>
                 <Button variant="outline-dark" disabled={!stations.next}
                         onClick={() => getStations(stations.nextPageId)}>Next</Button>
-            </div>
+            </div>}
             <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData}
                               showStationDataSpinner={showStationDataSpinner}/>
         </div>

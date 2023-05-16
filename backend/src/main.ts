@@ -20,6 +20,13 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
+app.get('/station', async (req, res) => {
+  if (!req.query.id) return res.status(400).send([]);
+  const idString = req.query.id.toString();
+  const idNumber = parseInt(idString);
+  const station = await getStationByStationId(idNumber, pool);
+  res.send(station);
+})
 
 app.get('/stations', async (req, res) => {
   if (!req.query.id) return res.status(400).send([]);
