@@ -1,33 +1,49 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import useStation from "../hooks/useStation";
 import StationDataModal from "./StationDataModal";
 import useStationData from "../hooks/useStationData";
 
 export default function StationsPage() {
 
-
     const [showModal, setShowModal] = useState(false);
-    const {stations, getStations, showSpinner} = useStation();
+    const [stationId, setStationId] = useState<number>();
+    const {stations, getStations, showSpinner, getAllStations, allStations} = useStation();
     const {stationData, getStationData, showStationDataSpinner} = useStationData();
 
-    useEffect(()=> {
-        getStations(1)
+    console.log(stationId);
+
+    useEffect(() => {
+        getStations(1);
+        getAllStations();
     }, []);
 
     const handleCloseModal = () => setShowModal(false);
 
-    function handleShowModal(stationId: number){
+    function handleShowModal(stationId: number) {
         getStationData(stationId);
         setShowModal(true);
+    }
+
+    function filterStations() {
+        if (!stationId) return;
+        getStations(stationId);
     }
 
 
     return (
         <div className="station-tab--container">
-
+            <div className="station-tab--form-select">
+                <Form.Select value={stationId} onChange={(e) => setStationId(parseInt(e.target.value))}
+                             aria-label="Default select example">
+                    <option>Choose station</option>
+                    {allStations?.map(station => <option key={station.station_id}
+                                                         value={station.station_id}>{station.name_eng}</option>)}
+                </Form.Select>
+                <Button>Confirm</Button>
+            </div>
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -45,9 +61,9 @@ export default function StationsPage() {
                 </tr>
                 </thead>
                 <tbody>
-                {showSpinner && <LoadingSpinner/>}
+
                 {!showSpinner && stations.content.map(station => (
-                    <tr onClick={()=>handleShowModal(station.station_id)} key={uuidv4()}>
+                    <tr onClick={() => handleShowModal(station.station_id)} key={uuidv4()}>
                         <td>{station.station_id}</td>
                         <td>{station.name_fin}</td>
                         <td>{station.name_swe}</td>
@@ -58,17 +74,22 @@ export default function StationsPage() {
                         <td>{station.city_swe}</td>
                         <td>{station.operator}</td>
                         <td>{station.capacity}</td>
-                        <td><a href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`} target={'_blank'}>Show on map</a></td>
+                        <td><a
+                            href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`}
+                            target={'_blank'}>Show on map</a></td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
-
+            {showSpinner && <LoadingSpinner/>}
             <div className="station-tab--buttons">
-                <Button variant="outline-dark" disabled={!stations.prev} onClick={()=> getStations(stations.prevPageId)}>Prev</Button>
-                <Button variant="outline-dark" disabled={!stations.next} onClick={()=> getStations(stations.nextPageId)}>Next</Button>
+                <Button variant="outline-dark" disabled={!stations.prev}
+                        onClick={() => getStations(stations.prevPageId)}>Prev</Button>
+                <Button variant="outline-dark" disabled={!stations.next}
+                        onClick={() => getStations(stations.nextPageId)}>Next</Button>
             </div>
-            <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData} showStationDataSpinner={showStationDataSpinner}/>
+            <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData}
+                              showStationDataSpinner={showStationDataSpinner}/>
         </div>
     );
 }

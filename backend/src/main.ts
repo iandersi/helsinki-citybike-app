@@ -6,6 +6,7 @@ import {getJourneysPage} from "./db/getJourneysPage";
 import {getStationsPage} from "./db/getStationsPage";
 import {getStationByStationId} from "./db/getStationById";
 import {getDeparturesAndReturnsCount} from "./db/getDeparturesAndReturnsCount";
+import {getAllStations} from "./db/getAllStations";
 dotenv.config();
 
 const app = express();
@@ -36,6 +37,12 @@ app.get('/stations/data', async (req, res) => {
   const departureAndReturnData = await getDeparturesAndReturnsCount(stationIdNumber, pool);
   if (!departureAndReturnData) return res.status(400).send([]);
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
+});
+
+app.get('/stations/id', async (req, res) => {
+  const stationsArray = await getAllStations(pool);
+  if (!stationsArray) return res.status(400).send([]);
+  res.send(stationsArray);
 });
 
 app.get('/journeys', async (req, res) => {

@@ -1,4 +1,8 @@
 
+.station-tab--form-select {
+    display: flex;
+}
+
 .station-tab--buttons {
     text-align: center;
 }

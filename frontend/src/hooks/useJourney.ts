@@ -1,6 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
-import {JourneysPage} from "../models/JourneysPage";
+import {JourneysPage} from "../data/JourneysPage";
 
 export default function useJourney() {
 

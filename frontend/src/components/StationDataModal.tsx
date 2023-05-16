@@ -1,7 +1,7 @@
 import {Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import LoadingSpinner from "./LoadingSpinner";
-import {StationDetails} from "../models/StationDetails";
+import {StationDetails} from "../data/StationDetails";
 
 type StationDataModalProps = {
     showModal: boolean,

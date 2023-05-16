@@ -1,6 +1,6 @@
 import {useState} from "react";
 import axios from "axios"
-import {StationDetails} from "../models/StationDetails";
+import {StationDetails} from "../data/StationDetails";
 
 export default function useStationData() {
 

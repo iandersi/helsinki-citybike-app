@@ -29,7 +29,6 @@ export default function JourneysPage() {
                 </tr>
                 </thead>
                 <tbody>
-                {showSpinner && <LoadingSpinner/>}
                 {!showSpinner && journeys.content.map(journey => (
                     <tr key={uuidv4()}>
                         <td>{format(new Date(journey.departure_date_time), 'dd.MM.yyyy')}</td>
@@ -44,6 +43,7 @@ export default function JourneysPage() {
                 ))}
                 </tbody>
             </Table>
+            {showSpinner && <LoadingSpinner/>}
             <div className="journey-tab--buttons">
                 <Button variant="outline-dark" disabled={!journeys.prev}
                         onClick={() => getJourneys(journeys.prevPageId)}>Prev</Button>
