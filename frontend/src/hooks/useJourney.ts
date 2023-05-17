@@ -4,7 +4,7 @@ import {JourneysPage} from "../data/JourneysPage";
 
 export default function useJourney() {
 
-    function getJourneys(id: number, departureStationId?: number, returnStationId?: number) {
+    function getJourneys(id?: number, departureStationId?: number, returnStationId?: number) {
         if (showSpinner) return;
         setShowSpinner(true);
         axios.get<JourneysPage>(`http://localhost:3000/journeys`, {

@@ -55,10 +55,19 @@ app.get('/stations/id', async (req, res) => {
 app.get('/journeys', async (req, res) => {
   if (!req.query.id) return res.status(400).send([]);
   const idString = req.query.id.toString();
+  const departureStationIdString = req.query.departureStationId?.toString();
+  const returnStationIdString = req.query.returnStationId?.toString();
   const idNumber = parseInt(idString);
-  console.log(idNumber);
-  const journeys = await getJourneysPage(idNumber, pool);
-  res.send(journeys);
+  if (departureStationIdString && returnStationIdString) {
+    const departureStationIdNumber = parseInt(departureStationIdString);
+    const returnStationNumber = parseInt(returnStationIdString);
+    const journeys = await getJourneysPage(idNumber, pool, departureStationIdNumber, returnStationNumber);
+    if (!journeys) return res.status(400).send([]);
+    res.send(journeys);
+  } else {
+    const journeys = await getJourneysPage(idNumber, pool);
+    res.send(journeys);
+  }
 });
 
 

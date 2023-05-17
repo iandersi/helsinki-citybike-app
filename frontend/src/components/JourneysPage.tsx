@@ -20,8 +20,8 @@ export default function JourneysPage() {
         getAllStations();
     }, []);
 
-    function getFilteredJourneys(){
-
+    function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number){
+        getJourneys(id, departureStationId, returnStationId)
     }
 
 
@@ -48,7 +48,7 @@ export default function JourneysPage() {
                                                              value={station.station_id}>{station.name_eng}</option>)}
                     </Form.Select></div>
 
-                <Button onClick={() => console.log()}>Confirm</Button>
+                <Button onClick={() => getFilteredJourneys(1, departureStationId, returnStationId)}>Confirm</Button>
                 <Button onClick={() => () => console.log()}>Clear</Button>
 
             </div>
