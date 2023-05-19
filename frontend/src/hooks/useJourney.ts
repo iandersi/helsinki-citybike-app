@@ -16,6 +16,8 @@ export default function useJourney() {
         })
             .then(response => {
                 console.log(response.data);
+                if (response.data.content.length === 0) setErrorMessage("No journeys found.");
+                if (response.data.content.length > 0) setErrorMessage("");
                 setJourneys(response.data);
 
             }).catch(err => {
@@ -26,6 +28,7 @@ export default function useJourney() {
     }
 
     const [showSpinner, setShowSpinner] = useState<boolean>();
+    const [errorMessage, setErrorMessage] = useState("");
     const [journeys, setJourneys] = useState<JourneysPage>({content: [], prev: false, next: true, prevPageId: 1, nextPageId: 20});
-    return {journeys, getJourneys, showSpinner};
+    return {journeys, getJourneys, showSpinner, errorMessage};
 }

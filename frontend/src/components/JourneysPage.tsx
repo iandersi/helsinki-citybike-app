@@ -8,7 +8,7 @@ import useStation from "../hooks/useStation";
 
 export default function JourneysPage() {
 
-    const {journeys, getJourneys, showSpinner} = useJourney();
+    const {journeys, getJourneys, showSpinner,  errorMessage} = useJourney();
     const [departureStationId, setDepartureStationId] = useState<number>();
     const [returnStationId, setReturnStationId] = useState<number>();
     const {allStations, getAllStations} = useStation();
@@ -89,6 +89,7 @@ export default function JourneysPage() {
                 </tbody>
             </Table>
             {showSpinner && <LoadingSpinner/>}
+            {errorMessage && <div className="journey-tab--no-journeys-found">{errorMessage}</div>}
             <div className="journey-tab--buttons">
                 <Button variant="outline-dark" disabled={!journeys.prev}
                         onClick={() => getJourneys(journeys.prevPageId, departureStationId, returnStationId)}>Prev</Button>
