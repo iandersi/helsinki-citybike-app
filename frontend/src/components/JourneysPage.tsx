@@ -88,7 +88,7 @@ export default function JourneysPage() {
                 ))}
                 </tbody>
             </Table>
-            {showSpinner && <LoadingSpinner/>}
+            {showSpinner && <div className="journey-tab--loading-spinner"><LoadingSpinner/></div>}
             {errorMessage && <div className="journey-tab--no-journeys-found">{errorMessage}</div>}
             <div className="journey-tab--buttons">
                 <Button variant="outline-dark" disabled={!journeys.prev}

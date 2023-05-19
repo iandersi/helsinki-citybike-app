@@ -10,7 +10,16 @@ export default function StationsPage() {
 
     const [showModal, setShowModal] = useState(false);
     const [stationId, setStationId] = useState<number>();
-    const {stations, getStations, showSpinner, getAllStations, allStations, filteredStation, getFilteredStation, setFilteredStation} = useStation();
+    const {
+        stations,
+        getStations,
+        showSpinner,
+        getAllStations,
+        allStations,
+        filteredStation,
+        getFilteredStation,
+        setFilteredStation
+    } = useStation();
     const {stationData, getStationData, showStationDataSpinner} = useStationData();
 
     console.log(filteredStation);
@@ -33,18 +42,19 @@ export default function StationsPage() {
     }
 
 
-
     return (
         <div className="station-tab--container">
             <div className="station-tab--form-select">
-                <Form.Select value={stationId} onChange={(e) => setStationId(parseInt(e.target.value))}
-                             aria-label="Default select example">
-                    <option>Choose station</option>
-                    {allStations?.map(station => <option key={station.station_id}
-                                                         value={station.station_id}>{station.name_eng}</option>)}
-                </Form.Select>
-                <Button onClick={()=>filterStations()}>Confirm</Button>
-                <Button onClick={()=> setFilteredStation(undefined)}>Clear</Button>
+                <div>
+                    <Form.Select value={stationId} onChange={(e) => setStationId(parseInt(e.target.value))}
+                                 aria-label="Default select example">
+                        <option>Choose station</option>
+                        {allStations?.map(station => <option key={station.station_id}
+                                                             value={station.station_id}>{station.name_eng}</option>)}
+                    </Form.Select>
+                    <Button onClick={() => filterStations()}>Confirm</Button>
+                    <Button onClick={() => setFilteredStation(undefined)}>Clear</Button>
+                </div>
             </div>
             <Table striped bordered hover>
                 <thead>
@@ -64,7 +74,7 @@ export default function StationsPage() {
                 </thead>
                 <tbody>
                 {!showSpinner && filteredStation &&
-                    <tr onClick={()=> handleShowModal(filteredStation?.station_id)}>
+                    <tr onClick={() => handleShowModal(filteredStation?.station_id)}>
                         <td>{filteredStation.station_id}</td>
                         <td>{filteredStation.name_fin}</td>
                         <td>{filteredStation.name_swe}</td>

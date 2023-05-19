@@ -5,20 +5,27 @@ body {
 .navigation--container {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
     margin-bottom: 1rem;
+    background: #fcb919;
 }
 
+.navigation--container img {
+    height: 100px;
+    margin-right: 1rem;
+}
+
+
 .navigation--tab {
-    border-top: black 1px solid;
-    border-bottom: black 1px solid;
-    border-left: none;
-    border-right: none;
+    border: none;
     font-size: 2.5rem;
-    background: white;
+    background: #fcb919;
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .navigation--tab:hover {
-    background: aqua;
+    color: black;
+    background: white;
 }
 

@@ -1,5 +1,5 @@
 import React, {Dispatch} from "react";
-
+import bikeLogo from "../images/Helsinki_City_Bikes_logo.png";
 type NavigationTabsProps = {
     setPageToShow: Dispatch<React.SetStateAction<{journeys: boolean, stations: boolean}>>
 }
@@ -18,6 +18,7 @@ export default function NavigationTabs({setPageToShow}: NavigationTabsProps){
 
     return (
         <div className="navigation--container">
+            <img src={bikeLogo}/>
             <button className="navigation--tab" onClick={()=>handleShowPage('journeys')}>Journeys</button>
             <button className="navigation--tab" onClick={()=> handleShowPage('stations')}>Stations</button>
         </div>

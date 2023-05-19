@@ -1,6 +1,28 @@
+.journey-tab--container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
 .journey-tab--form-select {
     display: flex;
     justify-content: center;
+    margin: 1rem;
+}
+
+.journey-tab--loading-spinner {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.journey-tab--form-select button {
+    margin-left: 0.3rem;
+    background: mediumseagreen;
+    color: black;
+    border: none;
+}
+
+.journey-tab--form-select > div {
+    margin-left: 0.5rem;
 }
 
 .journey-tab--buttons {
@@ -10,4 +32,8 @@
 .journey-tab--buttons button {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
+    margin-bottom: 1rem;
+    background: #fcb919;
+    border: none;
 }
+
