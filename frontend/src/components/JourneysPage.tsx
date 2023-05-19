@@ -28,6 +28,9 @@ export default function JourneysPage() {
     function clearFilteredJourneys(){
         if (!departureStationId || !returnStationId) return;
         if (departureStationId && returnStationId) getJourneys(1);
+        setDepartureStationId(0);
+        setReturnStationId(0);
+
     }
 
 
