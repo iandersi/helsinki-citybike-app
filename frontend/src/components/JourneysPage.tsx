@@ -13,12 +13,11 @@ export default function JourneysPage() {
     const [returnStationId, setReturnStationId] = useState<number>();
     const {allStations, getAllStations} = useStation();
 
-    console.log('Dep:', departureStationId, 'Ret:', returnStationId);
-
     useEffect(() => {
         getJourneys(1);
         getAllStations();
     }, []);
+
 
     function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number){
         if (!departureStationId || !returnStationId) return;
