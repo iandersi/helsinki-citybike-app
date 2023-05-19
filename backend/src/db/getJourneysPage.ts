@@ -24,10 +24,10 @@ export async function getJourneysPage(id: number, pool: any, departureStationIdN
         }
 
         if (departureStationIdNumber && returnStationNumber){
-            const journeysNext = await conn.query("SELECT * FROM journeys WHERE departure_station_id = ? AND return_station_id = ? ORDER BY id ASC LIMIT 21", [departureStationIdNumber, returnStationNumber]) as Journey[];
+            const journeysNext = await conn.query("SELECT * FROM journeys WHERE id >= ? AND departure_station_id = ? AND return_station_id = ? ORDER BY id ASC LIMIT 21", [id, departureStationIdNumber, returnStationNumber]) as Journey[];
 
             const nextPageMinId = Math.min(...journeysNext.map(id => id.id));
-            const journeysPrev = await conn.query("SELECT * FROM journeys WHERE id <= ? ORDER BY id DESC LIMIT 21", [nextPageMinId]) as Journey[];
+            const journeysPrev = await conn.query("SELECT * FROM journeys WHERE id <= ? AND departure_station_id = ? AND return_station_id = ? ORDER BY id DESC LIMIT 21", [nextPageMinId, departureStationIdNumber, returnStationNumber]) as Journey[];
 
             const prevPageId = Math.min(...journeysPrev.map(id => id.id));
             const nextPageId = Math.max(...journeysNext.map(id => id.id));

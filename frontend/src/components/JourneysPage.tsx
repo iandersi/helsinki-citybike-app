@@ -21,7 +21,13 @@ export default function JourneysPage() {
     }, []);
 
     function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number){
+        if (!departureStationId || !returnStationId) return;
         getJourneys(id, departureStationId, returnStationId)
+    }
+
+    function clearFilteredJourneys(){
+        if (!departureStationId || !returnStationId) return;
+        if (departureStationId && returnStationId) getJourneys(1);
     }
 
 
@@ -49,7 +55,7 @@ export default function JourneysPage() {
                     </Form.Select></div>
 
                 <Button onClick={() => getFilteredJourneys(1, departureStationId, returnStationId)}>Confirm</Button>
-                <Button onClick={() => () => console.log()}>Clear</Button>
+                <Button onClick={() => clearFilteredJourneys()}>Clear</Button>
 
             </div>
 
@@ -84,9 +90,9 @@ export default function JourneysPage() {
             {showSpinner && <LoadingSpinner/>}
             <div className="journey-tab--buttons">
                 <Button variant="outline-dark" disabled={!journeys.prev}
-                        onClick={() => getJourneys(journeys.prevPageId)}>Prev</Button>
+                        onClick={() => getJourneys(journeys.prevPageId, departureStationId, returnStationId)}>Prev</Button>
                 <Button variant="outline-dark" disabled={!journeys.next}
-                        onClick={() => getJourneys(journeys.nextPageId)}>Next</Button>
+                        onClick={() => getJourneys(journeys.nextPageId, departureStationId, returnStationId)}>Next</Button>
             </div>
         </div>
     );
