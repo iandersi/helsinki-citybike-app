@@ -42,13 +42,12 @@ app.get('/stations/data', async (req, res) => {
   const stationIdNumber = parseInt(stationIdString);
   const stationData = await getStationByStationId(stationIdNumber, pool);
   const departureAndReturnData = await getDeparturesAndReturnsCount(stationIdNumber, pool);
-  if (!departureAndReturnData) return res.status(400).send([]);
+  if (!departureAndReturnData) return res.status(400).send([{}]);
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
 });
 
 app.get('/stations/id', async (req, res) => {
   const stationsArray = await getAllStations(pool);
-  if (!stationsArray) return res.status(400).send([]);
   res.send(stationsArray);
 });
 
@@ -62,7 +61,6 @@ app.get('/journeys', async (req, res) => {
     const departureStationIdNumber = parseInt(departureStationIdString);
     const returnStationNumber = parseInt(returnStationIdString);
     const journeys = await getJourneysPage(idNumber, pool, departureStationIdNumber, returnStationNumber);
-    if (!journeys) return res.status(400).send([]);
     res.send(journeys);
   } else {
     const journeys = await getJourneysPage(idNumber, pool);

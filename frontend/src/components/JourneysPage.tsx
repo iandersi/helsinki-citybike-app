@@ -30,7 +30,6 @@ export default function JourneysPage() {
         if (departureStationId && returnStationId) getJourneys(1);
         setDepartureStationId(0);
         setReturnStationId(0);
-
     }
 
 

@@ -19,7 +19,7 @@ export default function useJourney() {
                 setJourneys(response.data);
 
             }).catch(err => {
-            console.log(err);
+            console.log("Error", err);
         }).finally(() => {
             setShowSpinner(false);
         })
