@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import useJourney from "../hooks/useJourney";
-import {Button, Form, Table} from "react-bootstrap";
+import {Alert, Button, Form, Table} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import {v4 as uuidv4} from 'uuid';
 import {format} from 'date-fns'
@@ -9,6 +9,7 @@ import useStation from "../hooks/useStation";
 export default function JourneysPage() {
 
     const {journeys, getJourneys, showSpinner,  errorMessage} = useJourney();
+    const [showAlertBox, setShowAlertBox] = useState(false);
     const [departureStationId, setDepartureStationId] = useState<number>();
     const [returnStationId, setReturnStationId] = useState<number>();
     const {allStations, getAllStations} = useStation();
@@ -20,12 +21,20 @@ export default function JourneysPage() {
 
 
     function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number){
-        if (!departureStationId || !returnStationId) return;
-        getJourneys(id, departureStationId, returnStationId)
+        if (!departureStationId || !returnStationId) {
+            setShowAlertBox(true);
+            return;
+        } else {
+            setShowAlertBox(false);
+            getJourneys(id, departureStationId, returnStationId);
+        }
     }
 
     function clearFilteredJourneys(){
-        if (!departureStationId || !returnStationId) return;
+        if (!departureStationId || !returnStationId) {
+            setShowAlertBox(false);
+            return;
+        }
         if (departureStationId && returnStationId) getJourneys(1);
         setDepartureStationId(0);
         setReturnStationId(0);
@@ -57,9 +66,8 @@ export default function JourneysPage() {
 
                 <Button onClick={() => getFilteredJourneys(1, departureStationId, returnStationId)}>Confirm</Button>
                 <Button onClick={() => clearFilteredJourneys()}>Clear</Button>
-
             </div>
-
+            {showAlertBox && <Alert variant="danger">Please select departure and return station!</Alert>}
             <Table striped bordered hover>
                 <thead>
                 <tr>
