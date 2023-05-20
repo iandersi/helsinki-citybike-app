@@ -37,3 +37,6 @@
     border: none;
 }
 
+.journey-tab--no-journeys-found {
+    text-align: center;
+}

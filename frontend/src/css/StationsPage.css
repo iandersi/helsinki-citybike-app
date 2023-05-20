@@ -3,6 +3,10 @@
     margin-right: 2rem;
 }
 
+.station-tab--container tr {
+    cursor: pointer;
+}
+
 .station-tab--form-select {
     display: flex;
     justify-content: center;
@@ -36,4 +40,17 @@
     margin-right: 0.3rem;
     background: #fcb919;
     border: none;
+}
+
+.station-tab--loading-spinner {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.station-data-modal--loading-spinner {
+   text-align: center;
+}
+
+.station-data-modal--modal-body-content-header {
+    font-weight: bold;
 }

@@ -109,7 +109,7 @@ export default function StationsPage() {
                 ))}
                 </tbody>
             </Table>
-            {showSpinner && <LoadingSpinner/>}
+            {showSpinner && <div className="station-tab--loading-spinner"><LoadingSpinner/></div>}
             {!showSpinner && !filteredStation && <div className="station-tab--buttons">
                 <Button variant="outline-dark" disabled={!stations.prev}
                         onClick={() => getStations(stations.prevPageId)}>Prev</Button>

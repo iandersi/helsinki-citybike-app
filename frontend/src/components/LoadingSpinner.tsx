@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 export default function LoadingSpinner() {
     return (
         <>
-            <Button variant="primary" disabled>
+            <Button variant="light" disabled size="lg">
                 <Spinner
                     as="span"
                     animation="grow"
