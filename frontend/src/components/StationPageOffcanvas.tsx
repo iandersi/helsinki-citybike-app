@@ -8,14 +8,6 @@ import {LatLng} from "leaflet";
 
 export default function StationPageOffcanvas(){
 
-    const map = useMap();
-
-    function stationClick(station: Station){
-        const latlng = new LatLng(parseFloat(station.coordinate_y), parseFloat(station.coordinate_x));
-        map.setView(latlng);
-        map.setZoom(20);
-    }
-
     const [stationId, setStationId] = useState<number>();
     const {
         stations,
@@ -33,6 +25,12 @@ export default function StationPageOffcanvas(){
         getAllStations();
     }, []);
 
+    const map = useMap();
+
+    function stationClick(station: Station){
+        const latlng = new LatLng(parseFloat(station.coordinate_y), parseFloat(station.coordinate_x));
+        map.setView(latlng, 20);
+    }
     function filterStations() {
         if (!stationId) return;
         getFilteredStation(stationId);
@@ -45,7 +43,7 @@ export default function StationPageOffcanvas(){
                     <Offcanvas.Title>Stations</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <div className="station-tab--form-select">
+                    <div className="offcanvas--form-select">
                         <div>
                             <Form.Select value={stationId}
                                          onChange={(e) => setStationId(parseInt(e.target.value))}
@@ -60,10 +58,10 @@ export default function StationPageOffcanvas(){
                         </div>
                     </div>
 
-                    {showSpinner && <div className="station-tab--loading-spinner"><LoadingSpinner/></div>}
+                    {showSpinner && <div className="offcanvas---loading-spinner"><LoadingSpinner/></div>}
 
                     {!showSpinner && !filteredStation && stations.content.map((station, index) => (
-                        <Accordion onClick={()=> stationClick(station)} key={`station-${station.station_id}`}>
+                        <Accordion key={`station-${station.station_id}`}>
                             <Accordion.Item eventKey={index.toString()}>
                                 <Accordion.Header>{station.name_eng}</Accordion.Header>
                                 <Accordion.Body>
@@ -91,13 +89,17 @@ export default function StationPageOffcanvas(){
                                         <div className="bold">Capacity</div>
                                         {station.capacity}
                                     </div>
+                                    <div className="offcanvas--accordion-button">
+                                        <Button onClick={()=> stationClick(station)}>Show on map</Button>
+                                    </div>
+
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
                     ))}
 
                     {!showSpinner && filteredStation &&
-                        <Accordion onClick={()=> stationClick(filteredStation)} >
+                        <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>{filteredStation.name_eng}</Accordion.Header>
                                 <Accordion.Body>
@@ -125,12 +127,15 @@ export default function StationPageOffcanvas(){
                                         <div className="accordion-body-text-bold">Capacity</div>
                                         {filteredStation.capacity}
                                     </div>
+                                    <div className="offcanvas--accordion-button">
+                                        <Button onClick={()=> stationClick(filteredStation)}>Show on map</Button>
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
                     }
 
-                    {!showSpinner && !filteredStation && <div className="station-tab--buttons">
+                    {!showSpinner && !filteredStation && <div className="offcanvas--buttons">
                         <Button variant="outline-dark" disabled={!stations.prev}
                                 onClick={() => getStationsPage(stations.prevPageId)}>Prev</Button>
                         <Button variant="outline-dark" disabled={!stations.next}

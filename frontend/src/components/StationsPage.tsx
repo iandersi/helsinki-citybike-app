@@ -2,8 +2,10 @@ import React, {useEffect} from "react";
 import useStation from "../hooks/useStation";
 import useStationData from "../hooks/useStationData";
 import {CircleMarker, MapContainer, Popup, TileLayer} from "react-leaflet";
-import {LeafletEventHandlerFnMap} from "leaflet";
+import {LatLng, LeafletEventHandlerFnMap} from "leaflet";
 import StationPageOffcanvas from "./StationPageOffcanvas";
+
+const defaultPosition = new LatLng(60.16, 24.93);
 
 export default function StationsPage() {
 
@@ -27,9 +29,9 @@ export default function StationsPage() {
 
 
     return (
-        <div className="station-tab--container">
-            <div className="map-page-container">
-                <MapContainer center={[60.1699, 24.9384]} zoom={13}>
+        <>
+            <div className="map-container">
+                <MapContainer center={defaultPosition} zoom={13}>
                     <TileLayer
                         attribution={`©<a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>`}
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -54,6 +56,6 @@ export default function StationsPage() {
                     <StationPageOffcanvas/>
                 </MapContainer>
             </div>
-        </div>
+        </>
     );
 }
