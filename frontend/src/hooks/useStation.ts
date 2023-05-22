@@ -5,7 +5,7 @@ import {Station} from "../data/Station";
 
 export default function useStation() {
 
-    function getStations(id: number) {
+    function getStationsPage(id: number) {
         if (showSpinner) return;
         setShowSpinner(true);
         axios.get<StationsPage>(`http://localhost:3000/stations`, {
@@ -65,5 +65,5 @@ export default function useStation() {
         nextPageId: 20
     });
 
-    return {stations, getStations, showSpinner, getAllStations, allStations, filteredStation, getFilteredStation, setFilteredStation};
+    return {stations, getStationsPage, showSpinner, getAllStations, allStations, filteredStation, getFilteredStation, setFilteredStation};
 }

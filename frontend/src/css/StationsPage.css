@@ -58,3 +58,7 @@
 .accordion-body-text-bold {
     font-weight: bold;
 }
+
+.leaflet-container {
+    height: 100dvh;
+}
