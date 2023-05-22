@@ -1,13 +1,16 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import useStation from "../hooks/useStation";
 import useStationData from "../hooks/useStationData";
 import {CircleMarker, MapContainer, Popup, TileLayer} from "react-leaflet";
 import {LatLng, LeafletEventHandlerFnMap} from "leaflet";
 import StationPageOffcanvas from "./StationPageOffcanvas";
+import Button from "react-bootstrap/Button";
 
 const defaultPosition = new LatLng(60.16, 24.93);
 
 export default function StationsPage() {
+
+    const [showOffcanvas, setShowOffcanvas] = useState(true);
 
     const {
         getAllStations,
@@ -31,6 +34,8 @@ export default function StationsPage() {
     return (
         <>
             <div className="map-container">
+                <Button className="offcanvas--open-button" variant="outline-dark"
+                        onClick={() => setShowOffcanvas(true)}>Open</Button>
                 <MapContainer center={defaultPosition} zoom={13}>
                     <TileLayer
                         attribution={`©<a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>`}
@@ -53,7 +58,7 @@ export default function StationsPage() {
                             </Popup>
                         </CircleMarker>
                     ))}
-                    <StationPageOffcanvas/>
+                    <StationPageOffcanvas showOffcanvas={showOffcanvas} setShowOffcanvas={setShowOffcanvas}/>
                 </MapContainer>
             </div>
         </>

@@ -29,6 +29,12 @@ export default function useJourney() {
 
     const [showSpinner, setShowSpinner] = useState<boolean>();
     const [errorMessage, setErrorMessage] = useState("");
-    const [journeys, setJourneys] = useState<JourneysPage>({content: [], prev: false, next: true, prevPageId: 1, nextPageId: 20});
+    const [journeys, setJourneys] = useState<JourneysPage>({
+        content: [],
+        prev: false,
+        next: true,
+        prevPageId: 1,
+        nextPageId: 20
+    });
     return {journeys, getJourneys, showSpinner, errorMessage};
 }

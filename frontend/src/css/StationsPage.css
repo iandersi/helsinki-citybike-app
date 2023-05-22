@@ -10,7 +10,7 @@
 
 .offcanvas--form-select button {
     margin-right: 0.3rem;
-    background: mediumseagreen;
+    background: #fcb919;
     color: black;
     border: none;
 }
@@ -40,8 +40,36 @@
     text-align: center;
 }
 
+.offcanvas-header h3 {
+    margin: 0;
+}
+
 .offcanvas--accordion-button {
     text-align: center;
+}
+
+.offcanvas--accordion-button button {
+    background: #464b48;
+    border: none;
+    color: white;
+}
+
+.offcanvas--close-button {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 20px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.offcanvas--open-button {
+    background: black;
+    color: white;
+    position: absolute;
+    top: 1rem;
+    margin-left: 1rem;
+    z-index: 100;
 }
 
 .bold {

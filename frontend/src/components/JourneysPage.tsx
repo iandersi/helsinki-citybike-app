@@ -8,7 +8,7 @@ import useStation from "../hooks/useStation";
 
 export default function JourneysPage() {
 
-    const {journeys, getJourneys, showSpinner,  errorMessage} = useJourney();
+    const {journeys, getJourneys, showSpinner, errorMessage} = useJourney();
     const [showAlertBox, setShowAlertBox] = useState(false);
     const [departureStationId, setDepartureStationId] = useState<number>();
     const [returnStationId, setReturnStationId] = useState<number>();
@@ -20,7 +20,7 @@ export default function JourneysPage() {
     }, []);
 
 
-    function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number){
+    function getFilteredJourneys(id: number, departureStationId?: number, returnStationId?: number) {
         if (!departureStationId || !returnStationId) {
             setShowAlertBox(true);
             return;
@@ -30,7 +30,7 @@ export default function JourneysPage() {
         }
     }
 
-    function clearFilteredJourneys(){
+    function clearFilteredJourneys() {
         if (!departureStationId || !returnStationId) {
             setShowAlertBox(false);
             return;
@@ -64,8 +64,9 @@ export default function JourneysPage() {
                                                              value={station.station_id}>{station.name_eng}</option>)}
                     </Form.Select></div>
 
-                <Button onClick={() => getFilteredJourneys(1, departureStationId, returnStationId)}>Confirm</Button>
-                <Button onClick={() => clearFilteredJourneys()}>Clear</Button>
+                <Button onClick={() => getFilteredJourneys(1, departureStationId, returnStationId)}
+                        variant="outline-dark">Confirm</Button>
+                <Button onClick={() => clearFilteredJourneys()} variant="outline-dark">Clear</Button>
             </div>
             {showAlertBox && <Alert variant="danger">Please select departure and return station!</Alert>}
             <Table striped bordered hover>

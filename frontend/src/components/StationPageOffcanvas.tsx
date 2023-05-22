@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {Accordion, Button, Form, Offcanvas} from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import useStation from "../hooks/useStation";
@@ -6,7 +6,12 @@ import {useMap} from "react-leaflet";
 import {Station} from "../data/Station";
 import {LatLng} from "leaflet";
 
-export default function StationPageOffcanvas(){
+type StationPageOffcanvasType = {
+    showOffcanvas: boolean,
+    setShowOffcanvas: Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function StationPageOffcanvas({showOffcanvas, setShowOffcanvas}: StationPageOffcanvasType) {
 
     const [stationId, setStationId] = useState<number>();
     const {
@@ -27,10 +32,12 @@ export default function StationPageOffcanvas(){
 
     const map = useMap();
 
-    function stationClick(station: Station){
+    function stationClick(station: Station) {
         const latlng = new LatLng(parseFloat(station.coordinate_y), parseFloat(station.coordinate_x));
+        setShowOffcanvas(false);
         map.setView(latlng, 20);
     }
+
     function filterStations() {
         if (!stationId) return;
         getFilteredStation(stationId);
@@ -38,9 +45,10 @@ export default function StationPageOffcanvas(){
 
     return (
         <>
-            <Offcanvas show={true} backdrop={false}>
+            <Offcanvas show={showOffcanvas} backdrop={false}>
                 <Offcanvas.Header>
-                    <Offcanvas.Title>Stations</Offcanvas.Title>
+                    <Offcanvas.Title><h3>Stations</h3></Offcanvas.Title>
+                    <div onClick={() => setShowOffcanvas(false)} className="offcanvas--close-button">Close</div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <div className="offcanvas--form-select">
@@ -53,8 +61,8 @@ export default function StationPageOffcanvas(){
                                     key={`station-option-${station.station_id}`}
                                     value={station.station_id}>{station.name_eng}</option>)}
                             </Form.Select>
-                            <Button onClick={() => filterStations()}>Confirm</Button>
-                            <Button onClick={() => setFilteredStation(undefined)}>Clear</Button>
+                            <Button onClick={() => filterStations()} variant="outline-dark">Confirm</Button>
+                            <Button onClick={() => setFilteredStation(undefined)} variant="outline-dark">Clear</Button>
                         </div>
                     </div>
 
@@ -90,7 +98,8 @@ export default function StationPageOffcanvas(){
                                         {station.capacity}
                                     </div>
                                     <div className="offcanvas--accordion-button">
-                                        <Button onClick={()=> stationClick(station)}>Show on map</Button>
+                                        <Button onClick={() => stationClick(station)} variant="outline-dark">Show on
+                                            map</Button>
                                     </div>
 
                                 </Accordion.Body>
@@ -128,7 +137,8 @@ export default function StationPageOffcanvas(){
                                         {filteredStation.capacity}
                                     </div>
                                     <div className="offcanvas--accordion-button">
-                                        <Button onClick={()=> stationClick(filteredStation)}>Show on map</Button>
+                                        <Button onClick={() => stationClick(filteredStation)} variant="outline-dark">Show
+                                            on map</Button>
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
