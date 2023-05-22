@@ -5,8 +5,6 @@ import {StationDetails} from "../data/StationDetails";
 export default function useStationData() {
 
     function getStationData(stationId: number) {
-        if (showStationDataSpinner) return;
-        setShowStationDataSpinner(true);
         axios.get<StationDetails>(`http://localhost:3000/stations/data`, {
             params: {
                 stationId: stationId
@@ -18,13 +16,10 @@ export default function useStationData() {
 
             }).catch(err => {
             console.log(err);
-        }).finally(()=>{
-            setShowStationDataSpinner(false);
         })
     }
 
-    const [showStationDataSpinner, setShowStationDataSpinner] = useState<boolean>(false);
     const [stationData, setStationData] = useState<StationDetails>();
 
-    return {stationData, getStationData, showStationDataSpinner};
+    return {stationData, getStationData};
 }
