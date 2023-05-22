@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 import useStation from "../hooks/useStation";
 import StationDataModal from "./StationDataModal";
 import useStationData from "../hooks/useStationData";
+import {MapContainer, TileLayer} from "react-leaflet";
 
 export default function StationsPage() {
 
@@ -46,8 +47,10 @@ export default function StationsPage() {
     return (
         <div className="station-tab--container">
 
-            <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)}>
-                <Offcanvas.Header closeButton>
+
+
+            <Offcanvas show={showOffcanvas} backdrop={false}>
+                <Offcanvas.Header>
                     <Offcanvas.Title>Stations</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -138,61 +141,6 @@ export default function StationsPage() {
                     </div>}
                 </Offcanvas.Body>
             </Offcanvas>
-
-
-            {/*<Table striped bordered hover>*/}
-            {/*    <thead>*/}
-            {/*    <tr>*/}
-            {/*        <th>Station Id</th>*/}
-            {/*        <th>Name (fi)</th>*/}
-            {/*        <th>Name (swe)</th>*/}
-            {/*        <th>Name (en)</th>*/}
-            {/*        <th>Address (fi)</th>*/}
-            {/*        <th>Address (swe)</th>*/}
-            {/*        <th>City (fi)</th>*/}
-            {/*        <th>City (swe)</th>*/}
-            {/*        <th>Operator</th>*/}
-            {/*        <th>Capacity</th>*/}
-            {/*        <th>Location</th>*/}
-            {/*    </tr>*/}
-            {/*    </thead>*/}
-            {/*    <tbody>*/}
-            {/*    {!showSpinner && filteredStation &&*/}
-            {/*        <tr onClick={() => handleShowModal(filteredStation?.station_id)}>*/}
-            {/*            <td>{filteredStation.station_id}</td>*/}
-            {/*            <td>{filteredStation.name_fin}</td>*/}
-            {/*            <td>{filteredStation.name_swe}</td>*/}
-            {/*            <td>{filteredStation.name_eng}</td>*/}
-            {/*            <td>{filteredStation.address_fin}</td>*/}
-            {/*            <td>{filteredStation.address_swe}</td>*/}
-            {/*            <td>{filteredStation.city_fin}</td>*/}
-            {/*            <td>{filteredStation.city_swe}</td>*/}
-            {/*            <td>{filteredStation.operator}</td>*/}
-            {/*            <td>{filteredStation.capacity}</td>*/}
-            {/*            <td><a*/}
-            {/*                href={`https://www.google.com/maps/place/${filteredStation.coordinate_y},${filteredStation.coordinate_x}`}*/}
-            {/*                target={'_blank'}>Show on map</a></td>*/}
-            {/*        </tr>*/}
-            {/*    }*/}
-            {/*    {!showSpinner && !filteredStation && stations.content.map(station => (*/}
-            {/*        <tr onClick={() => handleShowModal(station.station_id)} key={uuidv4()}>*/}
-            {/*            <td>{station.station_id}</td>*/}
-            {/*            <td>{station.name_fin}</td>*/}
-            {/*            <td>{station.name_swe}</td>*/}
-            {/*            <td>{station.name_eng}</td>*/}
-            {/*            <td>{station.address_fin}</td>*/}
-            {/*            <td>{station.address_swe}</td>*/}
-            {/*            <td>{station.city_fin}</td>*/}
-            {/*            <td>{station.city_swe}</td>*/}
-            {/*            <td>{station.operator}</td>*/}
-            {/*            <td>{station.capacity}</td>*/}
-            {/*            <td><a*/}
-            {/*                href={`https://www.google.com/maps/place/${station.coordinate_y},${station.coordinate_x}`}*/}
-            {/*                target={'_blank'}>Show on map</a></td>*/}
-            {/*        </tr>*/}
-            {/*    ))}*/}
-            {/*    </tbody>*/}
-            {/*</Table>*/}
 
             <StationDataModal showModal={showModal} handleClose={handleCloseModal} stationData={stationData}
                               showStationDataSpinner={showStationDataSpinner}/>
