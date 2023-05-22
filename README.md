@@ -4,7 +4,7 @@ This is an application that shows city bike journeys and city bike stations in E
 
 In this  app you can browse through journeys, filter journeys based on departure and return station, browse stations, search for stations and click on stations to see more data about them.
 
-I created this app as a pre-assignment for Solita Dev Academy (https://github.com/solita/dev-academy-2023-exercise).
+I created this app as a pre-assignment for Solita Dev Academy (https://github.com/solita/dev-academy-2023-exercise). 
 
 ## Instructions
 
