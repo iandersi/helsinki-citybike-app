@@ -54,3 +54,7 @@
 .station-data-modal--modal-body-content-header {
     font-weight: bold;
 }
+
+.accordion-body-text-bold {
+    font-weight: bold;
+}
