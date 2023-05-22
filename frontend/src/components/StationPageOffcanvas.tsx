@@ -66,7 +66,7 @@ export default function StationPageOffcanvas({showOffcanvas, setShowOffcanvas}: 
                         </div>
                     </div>
 
-                    {showSpinner && <div className="offcanvas---loading-spinner"><LoadingSpinner/></div>}
+                    {showSpinner && <div className="offcanvas--loading-spinner"><LoadingSpinner/></div>}
 
                     {!showSpinner && !filteredStation && stations.content.map((station, index) => (
                         <Accordion key={`station-${station.station_id}`}>
@@ -113,27 +113,27 @@ export default function StationPageOffcanvas({showOffcanvas, setShowOffcanvas}: 
                                 <Accordion.Header>{filteredStation.name_eng}</Accordion.Header>
                                 <Accordion.Body>
                                     <div>
-                                        <div className="accordion-body-text-bold">Station Id</div>
+                                        <div className="bold">Station Id</div>
                                         {filteredStation.station_id}
                                     </div>
                                     <div>
-                                        <div className="accordion-body-text-bold">Name</div>
+                                        <div className="bold">Name</div>
                                         {filteredStation.name_eng}
                                     </div>
                                     <div>
-                                        <div className="accordion-body-text-bold">Address</div>
+                                        <div className="bold">Address</div>
                                         {filteredStation.address_fin}
                                     </div>
                                     <div>
-                                        <div className="accordion-body-text-bold">City</div>
+                                        <div className="bold">City</div>
                                         {filteredStation.city_fin}
                                     </div>
                                     <div>
-                                        <div className="accordion-body-text-bold">Operator</div>
+                                        <div className="bold">Operator</div>
                                         {filteredStation.operator}
                                     </div>
                                     <div>
-                                        <div className="accordion-body-text-bold">Capacity</div>
+                                        <div className="bold">Capacity</div>
                                         {filteredStation.capacity}
                                     </div>
                                     <div className="offcanvas--accordion-button">

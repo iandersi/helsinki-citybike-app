@@ -2,7 +2,7 @@
 
 This is an application that shows city bike journeys and city bike stations in Espoo and Helsinki.
 
-In this  app you can browse through journeys, filter journeys based on departure and return station, browse stations, search for stations and click on stations to see more data about them.
+In this  app you can browse through journeys, filter journeys based on departure and return station, view stations on the map, click on map markers to view station statistics, browse stations, search for stations and click on stations to see more data about them.
 
 I created this app as a pre-assignment for Solita Dev Academy (https://github.com/solita/dev-academy-2023-exercise). 
 
@@ -92,6 +92,8 @@ docker-compose down
 * **Axios** - Only HTTP client I'm familiar with.
 * **React Bootstrap** - My favorite UI library.
 * **Date-fns** - Makes handling dates easier.
+* **React Leaflet** - The most user-friendly map component library I found, for someone like me, who has never worked with maps in react before.
+* **OpenStreetMap** - Open source map data, very good Finland map and I like open source.
 
 ## To do
 
