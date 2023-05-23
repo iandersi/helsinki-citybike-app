@@ -1,4 +1,4 @@
-LOAD DATA INFILE '/docker-entrypoint-initdb.d/Helsingin_ja_Espoon_kaupunkipyB6rA4asemat_avoin.csv'
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/stations.csv'
 INTO TABLE stations
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'

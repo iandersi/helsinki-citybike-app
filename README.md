@@ -33,16 +33,16 @@ npm install
 ### Download data
 
 Download journey data from:
-* https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv
-* https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv
-* https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv
+* https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv (save as `2021-05.csv`)
+* https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv (save as `2021-06.csv`)
+* https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv (save as `2021-07.csv`)
 
 Download station data from:
-* https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv
+* https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv (save as `stations.csv`)
 
-When you have downloaded all data you have to put the files into the `backend/db` folder! 
+Put the files into the `backend/db` folder!
 
-Note: Save the journey data with the default names e.g. 2021.05.csv. However, if you decide to change the name you have to change the name in the script file as well.
+> If you are Linux/MacOS user, run `permissions.sh` script in the `backend` folder before continuing.
 
 
 ### Run application
@@ -52,7 +52,7 @@ To run database, use the following commands:
 cd backend/
 docker-compose up
 ```
-It will take around 1 minute to import data to the MariaDB instance depending on your hardware. Once it is done, you should get this text in your terminal: ![img.png](frontend/terminalimage.png)
+It will take around 1 minute to import data to the MariaDB instance depending on your hardware.
 
 When the data import is done, run backend:
 ``` shell
@@ -76,9 +76,16 @@ docker-compose down
 
 ## Notes
 
-* Helsinki fields in the data are empty, could fill these if needed.
+* Helsinki fields in the original data are empty.
 * Data is duplicated in each file, so I deleted half of the rows in each of the data files (ignoring rows during journeys data import).
 * Date in data is "the wrong way around" (newest to oldest, next month newest to oldest again etc) so I had to create a script that turns them around. The purpose of this was to get the ids in descending order.
+
+
+* After trying to run this app on a different computer using a different OS (Linux PopOS), I noticed the db folder does not have required permissions so my script could not run. I had to create a separate script in the backend folder that creates the prepared files into the db folder before using docker-compose up.
+* You have to keep the default names so that the scripts will work. The stations name has to be modified otherwise the umlauts in the name cannot be read on Linux or MacOS properly.
+
+* I realize the scripts are not the most ideal way to do things in this case, and initially I was not planning on making them but in the end I had to because there were so many issues with the data. I wanted the backend setup process to be automated.
+* There is probably a more efficient way to deal with it.
 
 ## Technologies
 

@@ -1,6 +1,6 @@
 db/test-data.txt
 db/2021*
-db/Helsingin_ja_Espoon_kaupunkipyB6rA4asemat_avoin.csv
+db/stations.csv
 
 dist
 node_modules
