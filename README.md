@@ -109,3 +109,8 @@ docker-compose down
 * Make the query functions cleaner
 * More statistics when viewing single station
 * Pagination pages
+* Fix marker pop up issue (explained in known bugs)
+
+## Known bugs
+
+* When clicking on a station on the map and then choosing to show another station on the map from the offcanvas list without closing the marker pop up, it refuses to take you to the new station that is being clicked. My app bug or leaflet bug? Stay tuned.
