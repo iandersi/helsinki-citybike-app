@@ -33,9 +33,6 @@ export default function StationsPage() {
 
     return (
         <>
-            <div className="map-container">
-                <Button className="offcanvas--open-button" variant="outline-dark"
-                        onClick={() => setShowOffcanvas(true)}>Open</Button>
                 <MapContainer center={defaultPosition} zoom={13}>
                     <TileLayer
                         attribution={`©<a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>`}
@@ -60,7 +57,8 @@ export default function StationsPage() {
                     ))}
                     <StationPageOffcanvas showOffcanvas={showOffcanvas} setShowOffcanvas={setShowOffcanvas}/>
                 </MapContainer>
-            </div>
+                <Button className="offcanvas--open-button" variant="outline-dark"
+                        onClick={() => setShowOffcanvas(true)}>Open</Button>
         </>
     );
 }
