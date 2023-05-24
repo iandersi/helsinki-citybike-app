@@ -2,7 +2,9 @@
 
 This is an application that shows city bike journeys and city bike stations in Espoo and Helsinki.
 
-In this  app you can browse through journeys, filter journeys based on departure and return station, view stations on the map, click on map markers to view station statistics, browse stations, search for stations and click on stations to see more data about them.
+In this  app you can browse through journeys, filter journeys based on departure and return station, view stations on the map, click on map markers to view station statistics, browse stations, search for stations and click on stations to see more data about them. 
+
+You can see images here [journey view image](./images/journeyView.png) and here [station view image](./images/stationView.png).
 
 I created this app as a pre-assignment for Solita Dev Academy (https://github.com/solita/dev-academy-2023-exercise). 
 
@@ -109,8 +111,3 @@ docker-compose down
 * Make the query functions cleaner
 * More statistics when viewing single station
 * Pagination pages
-* Fix marker pop up issue (explained in known bugs)
-
-## Known bugs
-
-* When clicking on a station on the map and then choosing to show another station on the map from the offcanvas list without closing the marker pop up, it refuses to take you to the new station that is being clicked. My app bug or leaflet bug? Stay tuned.

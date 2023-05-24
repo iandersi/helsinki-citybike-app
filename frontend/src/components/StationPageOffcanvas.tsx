@@ -35,7 +35,14 @@ export default function StationPageOffcanvas({showOffcanvas, setShowOffcanvas}: 
     function stationClick(station: Station) {
         const latlng = new LatLng(parseFloat(station.coordinate_y), parseFloat(station.coordinate_x));
         setShowOffcanvas(false);
+        closeAllPopups();
         map.setView(latlng, 20);
+    }
+
+    function closeAllPopups(){
+        map.eachLayer(layer => {
+            layer.closePopup();
+        });
     }
 
     function filterStations() {
