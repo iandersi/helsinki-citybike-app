@@ -20,7 +20,7 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-app.get('/station', async (req, res) => {
+app.get('/stations', async (req, res) => {
   if (!req.query.id) return res.status(400).send([]);
   const idString = req.query.id.toString();
   const idNumber = parseInt(idString);
@@ -28,7 +28,7 @@ app.get('/station', async (req, res) => {
   res.send(station);
 })
 
-app.get('/stations', async (req, res) => {
+app.get('/stations/page', async (req, res) => {
   if (!req.query.id) return res.status(400).send([]);
   const idString = req.query.id.toString();
   const idNumber = parseInt(idString);
@@ -46,7 +46,7 @@ app.get('/stations/data', async (req, res) => {
   res.send({station: stationData, departureCount: departureAndReturnData[0], returnCount: departureAndReturnData[1]} as StationDetails);
 });
 
-app.get('/stations/id', async (req, res) => {
+app.get('/stations/all', async (req, res) => {
   const stationsArray = await getAllStations(pool);
   res.send(stationsArray);
 });

@@ -8,7 +8,7 @@ export default function useStation() {
     function getStationsPage(id: number) {
         if (showSpinner) return;
         setShowSpinner(true);
-        axios.get<StationsPage>(`http://localhost:3000/stations`, {
+        axios.get<StationsPage>(`http://localhost:3000/stations/page`, {
             params: {
                 id: id
             }
@@ -27,7 +27,7 @@ export default function useStation() {
     function getFilteredStation(id: number) {
         if (showSpinner) return;
         setShowSpinner(true);
-        axios.get<Station>(`http://localhost:3000/station`, {
+        axios.get<Station>(`http://localhost:3000/stations`, {
             params: {
                 id: id
             }
@@ -44,7 +44,7 @@ export default function useStation() {
     }
 
     function getAllStations() {
-        axios.get<Station[]>(`http://localhost:3000/stations/id`)
+        axios.get<Station[]>(`http://localhost:3000/stations/all`)
             .then(response => {
                 setAllStations(response.data);
             }).catch(err => {
