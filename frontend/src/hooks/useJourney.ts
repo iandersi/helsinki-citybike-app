@@ -13,14 +13,13 @@ export default function useJourney() {
                 departureStationId: departureStationId,
                 returnStationId: returnStationId
             }
-        })
-            .then(response => {
-                console.log(response.data);
-                if (response.data.content.length === 0) setErrorMessage("No journeys found.");
-                if (response.data.content.length > 0) setErrorMessage("");
-                setJourneys(response.data);
+        }).then(response => {
+            console.log(response.data);
+            if (response.data.content.length === 0) setErrorMessage("No journeys found.");
+            if (response.data.content.length > 0) setErrorMessage("");
+            setJourneys(response.data);
 
-            }).catch(err => {
+        }).catch(err => {
             console.log("Error", err);
         }).finally(() => {
             setShowSpinner(false);

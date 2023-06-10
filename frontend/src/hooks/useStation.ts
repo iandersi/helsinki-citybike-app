@@ -16,7 +16,6 @@ export default function useStation() {
             .then(response => {
                 console.log(response.data);
                 setStations(response.data);
-
             }).catch(err => {
             console.log(err);
         }).finally(() => {
@@ -31,12 +30,10 @@ export default function useStation() {
             params: {
                 id: id
             }
-        })
-            .then(response => {
-                console.log(response.data);
-                setFilteredStation(response.data);
-
-            }).catch(err => {
+        }).then(response => {
+            console.log(response.data);
+            setFilteredStation(response.data);
+        }).catch(err => {
             console.log(err);
         }).finally(() => {
             setShowSpinner(false);

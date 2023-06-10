@@ -9,12 +9,11 @@ export default function useStationData() {
             params: {
                 stationId: stationId
             }
-        })
-            .then(response => {
-                console.log(response.data);
-                setStationData(response.data);
+        }).then(response => {
+            console.log(response.data);
+            setStationData(response.data);
 
-            }).catch(err => {
+        }).catch(err => {
             console.log(err);
         })
     }
